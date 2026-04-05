@@ -1,0 +1,328 @@
+
+\chapter{引论}
+
+\section{集合与映射}
+
+\subsection{集合的基本运算与基本的映射关系}
+
+集合之间的基本关系和运算是实变函数与测度论的基础：
+
+\begin{itemize}
+  \item {\textbf{包含关系}：$A \subset B$，若 $A \cup B = B$ 则 $A \subset B$。}\item {\textbf{差集}：$A - B = A \setminus B = A \cap B^{c}$。}\item {\textbf{对称差}：$A \triangle B = (A \setminus B) \cup (B \setminus A) = (A \cup B) \setminus (A \cap B)$。}
+\end{itemize}
+\begin{theorem}[\textbf{De Morgan 定律}：]
+
+并的补等于补的交：$\displaystyle (A \cup B)^{c} = A^{c} \cap B^{c}$
+
+交的补等于补的并：$\displaystyle (A \cap B)^{c} = A^{c} \cup B^{c}$
+
+\end{theorem}
+
+\subsubsection{集合序列的上极限与下极限}
+
+对于集合序列 $\lbrace A_n \rbrace_{n=1}^{\infty}$，定义其上极限与下极限如下：
+
+\begin{definition}[集合的上极限]
+$$
+\displaystyle \limsup_{n \to \infty} A_n = \bigcap_{k=1}^{\infty} \bigcup_{n=k}^{\infty} A_n
+$$
+序列的上极限包含那些属于无穷多个 $A_n$ 的元素。
+
+\end{definition}
+
+\begin{definition}[集合的下极限]
+$$
+\displaystyle \liminf_{n \to \infty} A_n = \bigcup_{k=1}^{\infty} \bigcap_{n=k}^{\infty} A_n
+$$
+序列的下极限包含那些最终属于所有 $A_n$ 的元素（即除有限个外，属于所有的 $A_n$）。
+
+\end{definition}
+
+显然有 $\displaystyle \liminf_{n \to \infty} A_n \subset \limsup_{n \to \infty} A_n$。当二者相等时，称集合序列收敛，其极限为 $\displaystyle \lim_{n \to \infty} A_n = \liminf_{n \to \infty} A_n = \limsup_{n \to \infty} A_n$。
+
+\begin{theorem}[单调集合序列的交/并与极限等价]对于单调集合序列：
+
+\begin{itemize}
+  \item {若 $A_n \subset A_{n+1}$（单调递增），则 $\displaystyle \lim_{n \to \infty} A_n = \bigcup_{n=1}^{\infty} A_n$。}\item {若 $A_n \supset A_{n+1}$（单调递减），则 $\displaystyle \lim_{n \to \infty} A_n = \bigcap_{n=1}^{\infty} A_n$。}
+\end{itemize}
+\end{theorem}
+
+\subsubsection{映射及其分类}
+
+\textbf{映射}是集合论与实变函数中的基础对应关系。设 $\displaystyle X$ 和 $\displaystyle Y$ 是两个非空集合，若存在法则 $\displaystyle f$，使得对 $\displaystyle X$ 中每个元素 $\displaystyle x$，在 $\displaystyle Y$ 中都有唯一确定的元素 $\displaystyle y$ 与之对应，则称 $\displaystyle f$ 为从 $\displaystyle X$ 到 $\displaystyle Y$ 的映射，记作 $\displaystyle f: X \to Y$。
+
+\begin{definition}[映射、单射、满射与双射]
+
+定义：
+
+\begin{itemize}
+  \item {
+映射：$\displaystyle \forall x \in X, \exists ! y \in Y,\quad \text{s.t.} \ f(x) = y$，记作 $\displaystyle f: X \to Y$。即 $\displaystyle X$ 中每个元素在 $\displaystyle Y$ 中都有唯一确定的元素与之对应。
+}\item {
+单射：$\displaystyle \forall x_1, x_2 \in X, f(x_1) = f(x_2) \implies x_1 = x_2$。等价表述为 $\displaystyle x_1 \ne x_2 \implies f(x_1) \ne f(x_2)$，即不同元素映射到不同元素。
+}\item {
+满射：$\displaystyle \forall y \in Y, \exists x \in X,\quad \text{s.t.} \ f(x) = y$。这意味着映射的像集等于目标集合，即 $\displaystyle f(X) = Y$。
+}\item {
+双射：映射 $\displaystyle f$ 同时满足单射条件与满射条件：$$
+\displaystyle \forall y \in Y, \exists  x \in X,\quad \text{s.t.} \ f(x) = y$$
+当且仅当 $\displaystyle f$ 为双射时，存在唯一的逆映射 $\displaystyle f^{-1}: Y \to X$。
+}
+\end{itemize}
+\end{definition}
+
+\subsubsection{映射与集合的势}
+
+\begin{theorem}[映射的集合运算法则]
+
+对于映射 $\displaystyle f: X \to Y$ 以及集合族 $\displaystyle \lbrace A_{\alpha} \rbrace$ 和集合 $\displaystyle A, B$，存在以下性质：
+
+\textbf{原像完全保持集合的交、并、差运算}：
+
+\begin{itemize}
+  \item {
+$\displaystyle f^{-1}(\bigcup_{{\alpha}} A_{\alpha}) = \bigcup_{{\alpha}} f^{-1}(A_{\alpha})$
+}\item {
+$\displaystyle f^{-1}(\bigcap_{{\alpha}} A_{\alpha}) = \bigcap_{{\alpha}} f^{-1}(A_{\alpha})$
+}\item {
+$\displaystyle f^{-1}(A \setminus B) = f^{-1}(A) \setminus f^{-1}(B)$
+}
+\end{itemize}
+\textbf{像保持并集运算}，但不完全保持交集与差集运算（一般仅满足包含关系）：
+
+\begin{itemize}
+  \item {
+$\displaystyle f(\bigcup_{{\alpha}} A_{\alpha}) = \bigcup_{{\alpha}} f(A_{\alpha})$
+}\item {
+$\displaystyle f(\bigcap_{{\alpha}} A_{\alpha}) \subset \bigcap_{{\alpha}} f(A_{\alpha})$
+}\item {
+$\displaystyle f(A) \setminus f(B) \subset f(A \setminus B)$
+}
+\end{itemize}
+\end{theorem}
+
+集合的基数（势）用来比较集合的大小：
+
+\begin{itemize}
+  \item {两个集合 $A$ 和 $B$ 等势（记为 $A \sim B$），如果存在双射 $f: A \to B$。}
+\end{itemize}
+\begin{theorem}[Cantor-Bernstein 定理]
+
+若存在单射 $A \to B$ 和单射 $B \to A$（即势满足 $\overline{\overline{A}} \le \overline{\overline{B}}$ 且 $\overline{\overline{B}} \le \overline{\overline{A}}$），则 $A \sim B$（即 $\overline{\overline{A}} = \overline{\overline{B}}$）。
+
+\end{theorem}
+
+\subsection{可数集与不可数集}
+
+\begin{definition}[可数集]
+
+与自然数集 $\mathbb{N}$ 等势的集合称为可列集。\textbf{有限集与可列集统称为可数集}。其基数记为 $\aleph_0$。
+
+\end{definition}
+
+\begin{itemize}
+  \item {可数集的子集仍然是可数的。}\item {\textbf{可数个可数集的并集是可数集}：若 $A_n$ 都是可列集（$n=1,2,\dots$），则 $\displaystyle \bigcup_{n=1}^{\infty} A_n$ 也是可列集。}\item {有理数集 $\mathbb{Q}$ 是可列集。}
+\end{itemize}
+\begin{definition}[连续统]
+
+与实数集 $\mathbb{R}$ 等势的集合称为具有连续基数的集合。其基数记为 $c$，并且有 $\aleph_0 < c$。
+
+\end{definition}
+
+\begin{itemize}
+  \item {
+区间 $(0, 1)$ 是不可数的。
+}\item {
+$\mathbb{R} \setminus \mathbb{Q}$（无理数集）也是不可数的。
+}\item {
+当 $a < b$ 时，任意区间 $(a, b), [a, b], (a, +\infty)$ 等均具有连续基数 $c$。
+}\item {
+\textbf{Cantor 对角线论证}常用于证明某些集合是不可数的。
+}
+\end{itemize}
+\subsection{实数集 $\mathbb{R}^n$ 中的点集拓扑}
+
+\begin{definition}[内点、边界点与聚点]定义：
+
+\begin{itemize}
+  \item {
+\textbf{内点}：$\displaystyle \exists r > 0$，使得球 $\displaystyle B(x, r)$ 完全包含于 $\displaystyle E$ 中，则 $\displaystyle x$ 为 $\displaystyle E$ 的内点：$$
+\displaystyle x \in \mathring{E} \iff \exists r > 0, B(x, r) \subset E$$
+内点的全体构成 $\displaystyle E$ 的内部，记为 $\displaystyle \mathring{E}$。
+}\item {
+\textbf{聚点（极限点）}：$\displaystyle \forall r > 0$，去心邻域 $\displaystyle B(x, r) \setminus \lbrace x \rbrace$ 中总包含 $\displaystyle E$ 中的点，则 $\displaystyle x$ 是 $\displaystyle E$ 的聚点：$$
+\displaystyle x \in E' \iff \forall r > 0, (B(x, r) \setminus \lbrace x \rbrace) \cap E \ne \emptyset$$
+聚点的全体构成 $\displaystyle E$ 的导集，记为 $\displaystyle E'$。
+}\item {
+\textbf{孤立点}：$\displaystyle x$ 属于 $\displaystyle E$，且 $\displaystyle \exists r > 0$，使得球 $\displaystyle B(x, r)$ 与 $\displaystyle E$ 的交集仅包含 $\displaystyle x$ 自身，则 $\displaystyle x$ 为 $\displaystyle E$ 的孤立点：$$
+\displaystyle x \in E \setminus E' \iff x \in E \land (\exists r > 0, B(x, r) \cap E = \lbrace x \rbrace)$$
+孤立点全体构成的集合即为 $\displaystyle E \setminus E'$。
+}\item {
+\textbf{边界点}：$\displaystyle \forall r > 0$，球 $\displaystyle B(x, r)$ 中既包含 $\displaystyle E$ 中的点也包含 $\displaystyle E^c$ 中的点，则 $\displaystyle x$ 为边界点：$$
+\displaystyle x \in \partial E \iff \forall r > 0, (B(x, r) \cap E \ne \emptyset) \land (B(x, r) \cap E^c \ne \emptyset)$$
+边界点全体构成 $\displaystyle E$ 的边界，记为 $\displaystyle \partial E$。
+}
+\end{itemize}
+\end{definition}
+
+\begin{itemize}
+  \item {集合 $\displaystyle E$ 的所有聚点构成的集合称为 $\displaystyle E$ 的\textbf{导集}，记作 $\displaystyle E'$。}\item {集合 $\displaystyle E$ 与其导集 $\displaystyle E'$ 的并集称为 $\displaystyle E$ 的闭包，记为 $\displaystyle \overline{E}$。}
+\end{itemize}
+\subsubsection{开集、闭集与极限定理}
+
+\begin{definition}[开集与闭集]定义：
+
+\begin{itemize}
+  \item {
+\textbf{开集}：若集合 $E$ 的每个点都是内点（$E = \mathring{E}$），则 $E$ 为开集。
+}\item {
+\textbf{闭集}：若集合 $E$ 包含其所有的聚点（$E' \subset E$），则 $E$ 为闭集。闭包定义为 $\displaystyle \overline{E} = E \cup E'$，则 $E$ 闭等价于 $E = \overline{E}$。
+}
+\end{itemize}
+\end{definition}
+
+\begin{itemize}
+  \item {
+\textbf{开集与闭集的对偶性}：$G$ 是开集当且仅当其补集 $G^c$ 是闭集。
+}\item {
+任意多个开集的并集是开集，有限多个开集的交集是开集。
+}\item {
+任意多个闭集的交集是闭集，有限多个闭集的并集是闭集。
+}\item {
+\textbf{Heine-Borel 定理}：若 $F \subset \mathbb{R}^n$ 是一个有界闭集（即紧致集），则 $F$ 的任意开覆盖都存在有限子覆盖。
+}
+\end{itemize}
+\begin{theorem}[直线上开集的结构定理]
+
+直线上任意一个非空开集 $G$ 可以唯一地表示为有限个或可列个互不相交的开区间（构成区间）的并集。
+
+\end{theorem}
+
+直线上的闭集 $F$ 则是全直线，或是从直线上挖掉有限个或可列个互不相交的开区间所得到的集合。
+
+\subsubsection{Cantor 集}
+
+Cantor 集 $\mathcal{C}$ 是实分析中一个构造奇特且非常重要反例来源的集合。它是通过将 $[0,1]$ 区间不断“三分取中”构造而成的：
+$$
+\displaystyle C_0 = [0, 1];\qquad \displaystyle C_1 = [0, \frac{1}{3}] \cup [\frac{2}{3}, 1];\qquad\displaystyle \dots;\qquad \displaystyle \mathcal{C} = \bigcap_{k=1}^{\infty} C_k
+$$
+\begin{proposition}[Cantor 集的性质]
+
+\begin{enumerate}
+  \item {
+$\mathcal{C}$ 是有界闭集。
+}\item {
+$\mathcal{C}$ 是完全集（即无孤立点，$\mathcal{C} = \mathcal{C}'$）。
+}\item {
+$\mathcal{C}$ 是无处稠密的（不包含任何开区间）。
+}\item {
+$\mathcal{C}$ 的 Lebesgue 测度为 $0$。
+}\item {
+$\mathcal{C}$ 是不可数集，具有连续统基数 $c$。
+}
+\end{enumerate}
+\end{proposition}
+
+\section{常见的函数}
+
+\subsubsection{双曲函数}
+
+\begin{itemize}
+  \item {\textbf{双曲正弦函数}：$\displaystyle \sinh x = \dfrac{e^x - e^{-x}}{2}$}\item {\textbf{双曲余弦函数}：$\displaystyle \cosh x = \dfrac{e^x + e^{-x}}{2}$}\item {\textbf{双曲正切函数}：$\displaystyle \tanh x = \dfrac{\sinh x}{\cosh x} = \dfrac{e^x - e^{-x}}{e^x + e^{-x}}$}\item {\textbf{基本恒等式}：$\displaystyle \cosh^2 x - \sinh^2 x = 1$}
+\end{itemize}
+\subsubsection{三角函数恒等式}
+
+\begin{itemize}
+  \item {
+\textbf{正弦二倍角}：$\displaystyle \sin 2{\alpha} = 2 \sin {\alpha} \cos {\alpha}$
+}\item {
+\textbf{余弦二倍角}：$\displaystyle \cos 2{\alpha} = \cos^2 {\alpha} - \sin^2 {\alpha} = 2\cos^2 {\alpha} - 1 = 1 - 2\sin^2 {\alpha}$
+}\item {
+\textbf{正切二倍角}：$\displaystyle \tan 2{\alpha} = \dfrac{2\tan {\alpha}}{1 - \tan^2 {\alpha}}$
+}
+\end{itemize}
+\begin{theorem}[和差化积公式（逆用得到积化和差公式，常用于如 $\displaystyle \int \sin ax \cos bx \mathrm{d}x$）]
+
+\begin{itemize}
+  \item {
+$\displaystyle \sin {\alpha} + \sin {\beta} = 2 \sin \dfrac{{\alpha} + {\beta}}{2} \cos \dfrac{{\alpha} - {\beta}}{2}$
+}\item {
+$\displaystyle \sin {\alpha} - \sin {\beta} = 2 \cos \dfrac{{\alpha} + {\beta}}{2} \sin \dfrac{{\alpha} - {\beta}}{2}$
+}\item {
+$\displaystyle \cos {\alpha} + \cos {\beta} = 2 \cos \dfrac{{\alpha} + {\beta}}{2} \cos \dfrac{{\alpha} - {\beta}}{2}$
+}\item {
+$\displaystyle \cos {\alpha} - \cos {\beta} = -2 \sin \dfrac{{\alpha} + {\beta}}{2} \sin \dfrac{{\alpha} - {\beta}}{2}$
+}
+\end{itemize}
+\end{theorem}
+
+设 $\displaystyle t = \tan \dfrac{x}{2}$，则有： $\displaystyle \sin x = \dfrac{2t}{1 + t^2}$； $\displaystyle \cos x = \dfrac{1 - t^2}{1 + t^2}$； $\displaystyle \tan x = \dfrac{2t}{1 - t^2}$
+
+\begin{theorem}[斯特林公式]
+
+当 $\displaystyle n \to \infty$ 时，有： $\displaystyle n! \sim \sqrt{2\pi n} \left( \dfrac{n}{e} \right)^n\iff \displaystyle \ln n! \approx n \ln n - n + \dfrac{1}{2} \ln (2\pi n)$
+
+\end{theorem}
+
+\section{常见不等式}
+
+\subsubsection{数学不等式}
+
+不等式是实分析中进行估计和放缩的关键工具。
+
+\begin{theorem}[均值不等式]
+$$
+\displaystyle \text{调和平均}\dfrac{n}{\displaystyle\sum \dfrac{1}{a_i}} \le \text{几何平均}\sqrt[n]{\prod a_i} \le \text{算术平均}\dfrac{\displaystyle\sum a_i}{n} \le \text{平方平均}\sqrt{\dfrac{\displaystyle\sum a_i^2}{n}}
+$$
+当且仅当所有 $\displaystyle a_i$ 相等时，等号同时成立。
+
+\end{theorem}
+
+\begin{theorem}[柯西-施瓦茨不等式 (Cauchy-Schwarz 不等式)]
+
+对于任意两组实数 $\displaystyle a_1, \dots, a_n$ 和 $\displaystyle b_1, \dots, b_n$，有：
+$$
+\displaystyle \left( \sum_{i=1}^n a_i b_i \right)^2 \le \left( \sum_{i=1}^n a_i^2 \right) \left( \sum_{i=1}^n b_i^2 \right)
+$$
+向量形式表述为：$\displaystyle \vert \boldsymbol{a}^\top \boldsymbol{b} \vert^2 \le \Vert \boldsymbol{a} \Vert^2 \Vert \boldsymbol{b} \Vert^2$。当且仅当向量 $\displaystyle \boldsymbol{a}$ 与 $\displaystyle \boldsymbol{b}$ 线性相关时，等号成立。
+
+\end{theorem}
+
+\begin{theorem}[詹森不等式 (Jensen 不等式)]
+
+若 $\displaystyle f$ 为区间 $\displaystyle I$ 上的凸函数，则对于任意 $\displaystyle x_1, \dots, x_n \in I$ 及满足 $\displaystyle \sum {\lambda}_i = 1$ 的非负权重 $\displaystyle {\lambda}_i$，有：
+$$
+\displaystyle f\left( \sum_{i=1}^n {\lambda}_i x_i \right) \le \sum_{i=1}^n {\lambda}_i f(x_i)
+$$
+积分形式为：$\displaystyle f\left( \int {\varphi} \mathrm{d}{\mu} \right) \le \int f({\varphi}) \mathrm{d}{\mu}$（其中 $\displaystyle {\mu}$ 为概率测度）。
+
+\end{theorem}
+
+\begin{theorem}[赫尔德不等式 (Hölder's Inequality)]
+
+设 $\displaystyle p, q > 1$ 且满足共轭指数关系 $\displaystyle \dfrac{1}{p} + \dfrac{1}{q} = 1$。对于 $\displaystyle \mathbb{R}^n$ 中的向量 $\boldsymbol{a}, \boldsymbol{b}$，有：
+$$
+\displaystyle \sum_{i=1}^n \vert a_i b_i \vert \le \left( \sum_{i=1}^n \vert a_i \vert^p \right)^{1/p} \left( \sum_{i=1}^n \vert b_i \vert^q \right)^{1/q}
+$$
+对应的函数形式为 $\displaystyle \int \vert f g \vert \mathrm{d}{\mu} \le \Vert f \Vert_p \Vert g \Vert_q$。当 $\displaystyle p=q=2$ 时，该不等式即退化为柯西-施瓦茨不等式。
+
+\end{theorem}
+
+\begin{theorem}[闵可夫斯基不等式 (Minkowski's Inequality)]
+
+设 $\displaystyle p \ge 1$。对于 $\displaystyle \mathbb{R}^n$ 中的向量 $\boldsymbol{a}, \boldsymbol{b}$，有：
+$$
+\displaystyle \left( \sum_{i=1}^n \vert a_i + b_i \vert^p \right)^{1/p} \le \left( \sum_{i=1}^n \vert a_i \vert^p \right)^{1/p} + \left( \sum_{i=1}^n \vert b_i \vert^p \right)^{1/p}
+$$
+这在 $\displaystyle L^p$ 空间中体现为范数的三角不等式：$\displaystyle \Vert f + g \Vert_p \le \Vert f \Vert_p + \Vert g \Vert_p$。
+
+\end{theorem}
+
+\begin{theorem}[伯努利不等式 (Bernoulli's Inequality)]
+
+对于任意实数 $\displaystyle x \ge -1$ 和正整数 $\displaystyle n \ge 1$，有：
+$$
+\displaystyle (1 + x)^n \ge 1 + nx
+$$
+当 $\displaystyle n > 1$ 且 $\displaystyle x \ne 0$ 时，等号不成立。它是证明序列极限和级数收敛性的常用工具。
+
+\end{theorem}

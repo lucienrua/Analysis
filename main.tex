@@ -1,0 +1,54 @@
+% !TeX program = lualatex
+% !TeX options = -synctex=1 -interaction=nonstopmode -shell-escape "%.tex"
+
+% 引入我们整理好的所有配置
+\input{note-setup.tex}
+
+% 定义封面背景图片
+\newcommand\BackgroundPic{
+    \AddToShipoutPicture*{
+        \begin{tikzpicture}[remember picture, overlay]
+            \node[anchor=center, opacity=0.7] at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{nijika.jpg}};
+        \end{tikzpicture}
+    }
+}
+
+\begin{document}
+
+% 生成封面
+\begin{titlepage}
+ \BackgroundPic  % 添加背景图片
+ \null
+ \vfill
+ \begin{center}
+     {\fontsize{45}{48}\bfseries \textcolor{black}{数学分析笔记}}\par\vspace{1cm}
+     {\Huge {邵未鞅 lucienrua@gmail.com}} % 作者
+     \vspace{0.5cm}\par\vspace{0.5cm}
+     {\LARGE {28th\ Mar. 2026}} % 日期
+ \end{center}
+ \vfill
+\end{titlepage}
+
+\frontmatter  % 前言部分（页码为罗马数字，章节不编号）
+
+\chapter*{Preface}  % 前言
+今天已经处于第六学期的第四周，还有几天3月就要结束了。但是自己的复习还基本没有开始，除了平常写的每日一题（然后不少时间还因为做不完其他事情耽搁了）。夏令营笔面试迫在眉睫，复习进程刻不容缓，遂决定开始记录推免时期的数学分析的学习笔记，其中主要以谢惠民的《数学分析习题课讲义》为主，加上楼红卫、张筑生和八一等人的一些参考书籍，以及日常的每日一题和找到的一些其他考试的参考资料，综合整理为主要内容。本内容尽量避免繁琐的计算部分，只保留关键的题目作为参考，以提纲挈领作为主要目标，主要记录较为重要的理论和结论内容。
+
+然后也是最近在强化学习上面练练手，慢慢熟悉、认可这样的一套系统。遂今天决定把这样的方式固定下来，希望能实现想要实现的效果，而非浮于表面。
+\vspace{2em}
+\begin{flushright}
+邵未鞅\\
+2026年3月30日
+\end{flushright}
+% 生成目录
+\tableofcontents
+
+\mainmatter % 正文部分（页码恢复阿拉伯数字，章节开始编号）
+
+% ==========================================
+% 在这里按顺序引入你的每一课
+% ==========================================
+\input{Chapters/01_引论.tex}
+\input{Chapters/01_引论.tex}
+
+\end{document}

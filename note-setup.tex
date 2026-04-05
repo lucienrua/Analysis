@@ -1,0 +1,240 @@
+%===========================================================
+% note-setup-box.tex
+% Customized Setup with Obsidian Callouts & Categorized Packages
+%===========================================================
+
+% ==========================================
+% 1. 页面排版与段落 (Page & Layout)颜色必须放在最前面
+% ==========================================
+\documentclass{book} % 必须改为 book 类，以支持 \frontmatter 和 \chapter
+
+\usepackage[dvipsnames]{xcolor} % 确保颜色模型丰富
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=,             % 保持默认或根据需要设定
+    urlcolor=cyan
+}
+
+\usepackage[a4paper,top=2cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{indentfirst}    % 首行缩进
+\usepackage{anyfontsize}    % 任意字体大小
+\usepackage{appendix}       % 附录支持
+\linespread{1.25}           % 全局行距 1.25
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{csvsimple}
+\usepackage{pagecolor}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{}
+\fancyfoot[C]{\thepage}
+
+% ==========================================
+% 2. 字体 (Fonts)
+% ==========================================
+\usepackage{type1cm}
+\usepackage[UTF8]{ctex} 
+\raggedbottom
+%\usepackage{mathpazo}这个字体不错，有时间用用
+%\usepackage{charter} % 这里的字体支持希腊字母花体
+%\usepackage[expert]{mathdesign}
+% ==========================================
+% 3. 数学 (Math)
+% ==========================================
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}             % 粗体数学符号
+\usepackage{extarrows}
+
+% 自定义数学算子快捷命令
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Prob}{\operatorname{P}}
+\newcommand{\I}{\operatorname{I}}
+\newcommand{\diff}{\mathrm{d}}
+
+% ==========================================
+% 4. 图形 (Graphics & TikZ)
+% ==========================================
+\usepackage{graphicx}
+\usepackage{eso-pic}        % 添加背景图片支持
+\graphicspath{
+    {./figure/}{./figures/}{./image/}{./images/}{./graphic/}{./graphics/}{./picture/}{./pictures/}
+}
+\usepackage{subcaption}     % 子图支持
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing} % TikZ 路径变形库
+
+% ==========================================
+% 5. 表格与列表 (Tables & Lists)
+% ==========================================
+\usepackage{array}
+\usepackage{booktabs}       % 三线表 (toprule, midrule, bottomrule)
+\usepackage{multirow,multicol}
+\usepackage[shortlabels,inline]{enumitem} % 强大的列表环境
+\usepackage{tabularx}
+\usepackage{listings}
+
+
+
+\definecolor{ObsTheorem}{RGB}{30, 150, 150}   % #1E9696 深青绿
+\definecolor{ObsProp}{RGB}{80, 160, 100}      % #50A064 深绿
+\definecolor{ObsLemma}{RGB}{110, 180, 60}       % 更纯粹的绿意
+\definecolor{ObsCor}{RGB}{160, 174, 45}       % #A0AE2D 青柠绿
+\definecolor{ObsClaim}{RGB}{210, 200, 35}     % 更明亮的黄色
+\definecolor{ObsDef}{RGB}{110, 110, 245}      % #6E6EF5 偏蓝紫
+\definecolor{ObsRemark}{RGB}{255, 140, 0}     % #FF8C00 橙色
+\definecolor{ObsNote}{RGB}{255, 160, 180}     % #FFA0B4 浅粉
+\definecolor{ObsSol}{RGB}{245, 170, 120}      % #F5AA78 暖橙
+\definecolor{ObsEg}{RGB}{205, 170, 95}        % 更深沉的暗褐黄
+\definecolor{ObsExe}{RGB}{150, 110, 210}      % 偏紫的色调
+\definecolor{jiangmo}{HTML}{57A3F1}           % 原有的蓝% 
+
+% ==========================================
+% 7. 代码与算法 (Code & Algorithms)
+% ==========================================
+\usepackage{minted}         % 现代代码高亮包 (需编译时加 -shell-escape)
+% 算法包 (只保留您指定的一套格式)
+\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+
+% ==========================================
+% 8. 其它工具 (Other Utilities)
+% ==========================================
+\usepackage{cancel}         % 公式中的删除线
+\usepackage{extarrows}      % 更多长箭头
+\usepackage[normalem]{ulem} % 文本下划线与删除线
+\usepackage{verbatim}       % 多行注释
+\usepackage{float}          % 浮动体强行排版 (H)
+\usepackage[most]{tcolorbox}% 彩色盒子核心宏包
+
+
+% ==========================================
+% 9 & 10. 定理环境样式定义与 Tcolorbox 绑定
+% ==========================================
+\renewcommand*{\proofname}{\normalfont\bfseries Proof}
+\usepackage{thmtools}
+
+% 核心宏：一键绑定 thmtools 样式与 tcolorbox 外观
+% #1: 环境命令名 (如 theorem)
+% #2: 环境显示名 (如 Theorem)
+% #3: 颜色变量名 (如 ObsTheorem)
+% #4: 计数器规则 (如 numberwithin=section 或 sibling=theorem)
+%\newcommand{\createobsbox}[4]{
+%    % 1. 配置专属 thmtools 样式 (负责标题颜色、括号格式与换行)
+%    \declaretheoremstyle[
+%        headfont=\bfseries\color{#3},      % 主标题同色加粗
+%        notefont=\bfseries\color{#3},      % 括号内的小标题同色加粗
+%        notebraces={(}{)},                 % 小标题使用括号包裹 (匹配你图片中的效果)
+%		bodyfont=\normalfont\color{black}, % 【新增】强制主体文字颜色
+%        spaceabove=0pt, spacebelow=0pt,
+%        headpunct={.},                     % 标题末尾的点号
+%        postheadspace=\newline             % 强制在标题结束后换行
+%    ]{#1style}
+%
+%    % 2. 声明定理环境
+%    \declaretheorem[style=#1style, name=#2, #4]{#1}
+%    \declaretheorem[style=#1style, name=#2, numbered=no]{#1*}
+%
+%% 3. 绑定 tcolorbox 样式 (强化版修复)
+%    \tcolorboxenvironment{#1}{
+%        standard, 
+%        breakable, 
+%        rounded corners, 
+%        boxrule=0.5pt,
+%        colframe=#3,
+%        colback=#3!10,
+%        % --- 强制颜色锁定开始 ---
+%        colupper=black,              % 盒子内部文字主颜色
+%        fontupper=\color{black},     % 强制字体颜色宏
+%        before upper={\color{black}}, % 在文字开始前显式插入颜色指令
+%        % 针对 breakable 的关键设置：确保每一页切开后都强制刷新颜色
+%        extras broken={
+%            colupper=black,
+%            before upper={\color{black}}
+%        },
+%        % --- 强制颜色锁定结束 ---
+%        left=1em, right=1em, top=0.5em, bottom=0.5em,
+%        before skip=10pt, after skip=10pt,
+%        separator sign none
+%    }
+%    \tcolorboxenvironment{#1*}{
+%        enhanced, breakable, rounded corners, boxrule=0.5pt,
+%        colframe=#3, colback=#3!10,
+%        left=1em, right=1em, top=0.5em, bottom=0.5em,
+%        before skip=10pt, after skip=10pt,
+%        separator sign none
+%    }
+%}
+% 核心宏：一键绑定 thmtools 样式与 tcolorbox 外观
+\newcommand{\createobsbox}[4]{
+    % 1. 配置专属 thmtools 样式
+    \declaretheoremstyle[
+        headfont=\bfseries\color{#3},      % 标题局部染色，没问题
+        notefont=\bfseries\color{#3},      
+        notebraces={(}{)},                 
+        bodyfont=\normalfont,              % 【关键点 1】：绝对不要在这里写 \color{black}！
+        spaceabove=0pt, spacebelow=0pt,
+        headpunct={.},                     
+        postheadspace=\newline             
+    ]{#1style}
+
+    % 2. 声明定理环境
+    \declaretheorem[style=#1style, name=#2, #4]{#1}
+    \declaretheorem[style=#1style, name=#2, numbered=no]{#1*}
+
+    % 3. 绑定 tcolorbox 样式 (回归干净配置)
+    \tcolorboxenvironment{#1}{
+        standard, breakable, rounded corners, boxrule=0.5pt,
+        colframe=#3,
+        colback=#3!10,
+        coltext=black,                     % 【关键点 2】：只用 tcolorbox 的原生属性控制文字颜色
+        left=1em, right=1em, top=0.5em, bottom=0.5em,
+        before skip=10pt, after skip=10pt,
+        separator sign none
+    }
+    
+    % 4. 同样修复不带星号的无编号版本
+    \tcolorboxenvironment{#1*}{
+        standard, breakable, rounded corners, boxrule=0.5pt,
+        colframe=#3,
+        colback=#3!10,
+        coltext=black,                     % 必须加上
+        left=1em, right=1em, top=0.5em, bottom=0.5em,
+        before skip=10pt, after skip=10pt,
+        separator sign none
+    }
+}
+
+% 批量生成所有环境，严格保留你原有的计数器依赖关系
+\createobsbox{theorem}{Theorem}{ObsTheorem}{numberwithin=section}
+\createobsbox{proposition}{Proposition}{ObsProp}{sibling=theorem}
+\createobsbox{lemma}{Lemma}{ObsLemma}{sibling=theorem}
+\createobsbox{corollary}{Corollary}{ObsCor}{sibling=theorem}
+\createobsbox{claim}{Claim}{ObsClaim}{sibling=theorem}
+\createobsbox{definition}{Definition}{ObsDef}{numberwithin=section}
+\createobsbox{problem}{Problem}{jiangmo}{numberwithin=section}
+\createobsbox{exercise}{Exercise}{ObsExe}{numberwithin=section}
+\createobsbox{example}{Example}{ObsEg}{numberwithin=section}
+\createobsbox{remark}{Remark}{ObsRemark}{numberwithin=section}
+\createobsbox{note}{Note}{ObsNote}{numberwithin=section}
+
+% Solution 环境单独定义 (解答一般不换行，且需要结束符)
+\declaretheoremstyle[
+    headfont=\bfseries\color{ObsSol},
+    bodyfont=\normalfont,
+    qed=\ensuremath{\square},
+    headpunct={.},
+    postheadspace=1em
+]{solstyle}
+\declaretheorem[style=solstyle, name=Solution, numbered=no]{solution}
+\tcolorboxenvironment{solution}{
+    standard, breakable, rounded corners, boxrule=0.5pt,
+    colframe=ObsSol, colback=ObsSol!10,
+    left=1em, right=1em, top=0.5em, bottom=0.5em,
+    before skip=10pt, after skip=10pt
+}
+
+\titleformat{\section}{\centering\normalfont\Large\bfseries}{\thesection}{1em}{}
