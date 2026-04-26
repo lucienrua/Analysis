@@ -1,0 +1,33 @@
+\contentsline {chapter}{\numberline {1}引论}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}集合与映射}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}集合的基本运算与基本的映射关系}{1}{subsection.1.1.1}%
+\contentsline {subsubsection}{集合序列的上极限与下极限}{1}{theorem.1}%
+\contentsline {subsubsection}{映射及其分类}{2}{theorem.2}%
+\contentsline {subsubsection}{映射与集合的势}{2}{definition.3}%
+\contentsline {subsection}{\numberline {1.1.2}可数集与不可数集}{3}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}实数集 $\mathbb {R}^n$ 中的点集拓扑}{3}{subsection.1.1.3}%
+\contentsline {subsubsection}{开集、闭集与极限定理}{4}{definition.6}%
+\contentsline {subsubsection}{Cantor 集}{4}{theorem.5}%
+\contentsline {section}{\numberline {1.2}常见的函数}{5}{section.1.2}%
+\contentsline {subsubsection}{双曲函数}{5}{section.1.2}%
+\contentsline {subsubsection}{三角函数恒等式}{5}{section.1.2}%
+\contentsline {section}{\numberline {1.3}常见不等式}{6}{section.1.3}%
+\contentsline {section}{\numberline {1.4}课后习题}{7}{section.1.4}%
+\contentsline {chapter}{\numberline {2}数列极限}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}数列极限的定义和性质}{9}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Cauchy 命题与 Stolz 定理}{11}{section.2.2}%
+\contentsline {subsubsection}{当 $\displaystyle \ell $ 为有限实数时}{11}{equation.2.3}%
+\contentsline {subsubsection}{当 $\displaystyle \ell = +\infty $ 时}{12}{equation.2.3}%
+\contentsline {section}{\numberline {2.3}自然对数的底 e 和 Euler 常数 γ}{13}{section.2.3}%
+\contentsline {section}{\numberline {2.4}课后习题}{13}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}放缩}{13}{subsection.2.4.1}%
+\contentsline {subsubsection}{局部放缩法}{13}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}递推}{13}{subsection.2.4.2}%
+\contentsline {subsubsection}{利用函数性质递推}{13}{subsection.2.4.2}%
+\contentsline {subsubsection}{辅助数列递推}{14}{exercise.3}%
+\contentsline {subsection}{\numberline {2.4.3}Cauchy 命题（ (\ref {Cauchythm}) ）}{15}{subsection.2.4.3}%
+\contentsline {subsubsection}{截断法}{16}{exercise.5}%
+\contentsline {subsection}{\numberline {2.4.4}Stolz 公式（ (\ref {Stolz0})， (\ref {Stolzoo}) ）}{16}{subsection.2.4.4}%
+\contentsline {subsubsection}{递推使用 Stolz}{16}{subsection.2.4.4}%
+\contentsline {subsubsection}{差分使用 Stolz}{17}{exercise.7}%
+\contentsline {section}{\numberline {2.5}自然对数的底 e 和 Euler 常数 γ}{18}{section.2.5}%

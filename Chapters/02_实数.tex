@@ -1,0 +1,43 @@
+
+\chapter{实数}
+
+\section{实数}
+
+\begin{theorem}[有限覆盖定理（ Heine-Borel 定理）]如果 $\displaystyle S$ 是 $\displaystyle \mathbb{R}^n$ 中的一个\textbf{有界闭集}，并且 $\displaystyle \mathscr{F} = \lbrace \displaystyle U_{{\alpha}} \rbrace_{{{\alpha}} \in A}$ 是 $\displaystyle S$ 的一个\textbf{开覆盖}，那么必然存在 $\displaystyle \mathscr{F}$ 的一个有限子集 $\displaystyle \lbrace \displaystyle U_{{{\alpha}}_1}, U_{{{\alpha}}_2}, \dots, U_{{{\alpha}}_k} \rbrace$ 使得它仍然覆盖 $\displaystyle S$。
+
+\begin{itemize}
+  \item {一维闭集：闭区间 $\displaystyle [a, b]$}
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}[康托尔 (Cantor) 定理]（每日一题例题 25）证明：设 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $[a, b]$ 上一致连续。
+
+\end{theorem}
+
+反证法：设 $f$ 在 $[a, b]$ 上连续，但不是一致连续的。则
+$$
+\exists \varepsilon_0 > 0, \operatorname{s.t.} \forall \delta > 0, \exists x, y \in [a, b] \text{ 即使 } |x - y| < \delta, \text{ 但 } |f(x) - f(y)| \geqslant \varepsilon_0
+$$
+由 $\delta$ 的任意性，根据令 $\delta_n = \dfrac{1}{n}$，那么 $\forall n$ 都存在 $x_n, y_n$ 满足
+
+\begin{enumerate}
+  \item {$|x_n - y_n| < \dfrac{1}{n}$}\item {$|f(x_n) - f(y_n)| \geqslant \varepsilon_0$由于 $x_n$ 包含在闭区间 $[a, b]$ 内，因而有界。根据 Bolzano-Weierstrass 定理，$\exists x_{n_k}$ 的有一个收敛子列 $\{x_{n_k}\}_{k=1}^{\infty}$，设 $\displaystyle \lim_{k \to \infty} x_{n_k} = x_0$。由于 $[a, b]$ 是闭集，因此 $x_0 \in [a, b]$。}
+\end{enumerate}
+由于 $\displaystyle \lim_{k \to \infty} |y_{n_k} - x_{n_k}| \leqslant \lim_{k \to \infty} \dfrac{1}{n_k} = 0$，因此有 $\displaystyle \lim_{k \to \infty} y_{n_k} = \lim_{k \to \infty} x_{n_k} = x_0$。根据 Heine 归结原理
+$$
+\lim_{k \to \infty} f(y_{n_k}) = f(\lim_{k \to \infty} y_{n_k}) = f(x_0), \quad \lim_{k \to \infty} f(x_{n_k}) = f(\lim_{k \to \infty} x_{n_k}) = f(x_0)
+$$
+因此 $\displaystyle \lim_{k \to \infty} |f(y_{n_k}) - f(x_{n_k})| = 0$，这与 $|f(x_n) - f(y_n)| \geqslant \varepsilon_0$ 矛盾。综上 $f$ 在 $[a, b]$ 一致连续。
+
+\section{课后习题}
+
+\begin{exercise}[有限覆盖定理]（每日一题例题 24）利用有限覆盖定理证明连续函数的根的存在定理。
+
+\end{exercise}
+
+设 $\displaystyle f(a)f(b) < 0$，假设无根，由保号性得各点邻域 $\displaystyle B(x,\delta_{x})\cap [a, b]$ 内 $\displaystyle f$ 不变号。
+
+\begin{itemize}
+  \item {\textbf{有限覆盖定理}：开覆盖 $\displaystyle \bigcup_{x \in [a,b]} B(x, \dfrac{{\delta}_x}{2})$ 得到有限开覆盖 $\displaystyle \bigcup_{i=1}^{n} B(x_{i}, \dfrac{{\delta}_{x_{i}}}{2})$}\item {\textbf{确定一致步长}：取 $\displaystyle r = \dfrac{b-a}{N} < \min_{1 \leq i \leq n} \dfrac{{\delta}_{x_i}}{2}$。对于 $\displaystyle \forall c \in [a, b]$，若其属于某个 $\displaystyle B(x_j, \dfrac{{\delta}_{x_j}}{2})$，则步进点 $\displaystyle c + r$ 必落在该点的\uline{保号邻域} $\displaystyle B(x_j, {\delta}_{x_j})$ 内，从而 $\displaystyle f(c)$ 与 $\displaystyle f(c + r)$ 同号。}\item {\textbf{同号传递与矛盾}：通过有限次步进得到 $\displaystyle f(a), f(a +r), \dots, f(a+Nr)=f(b)$ 均同号，与 $\displaystyle f(a)f(b) < 0$ 矛盾。}
+\end{itemize}
+核心就是保号性，构造$\displaystyle \dfrac{{\delta}_x}{2}$ 的核心也是为了利用保号性；另一种想法是直接利用开覆盖符号的传递性。

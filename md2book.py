@@ -10,11 +10,78 @@ from mistune.plugins.table import table
 # =====================================================================
 # 基础配置区：在此处设置输入/输出路径，以及是否输出完整的 tex 文件
 # =====================================================================
-INPUT_MD_FILE = r"Chapters\01_引论.md"
-OUTPUT_TEX_FILE = r"Chapters\01_引论.tex"
-OBSIDIAN_IMAGE_DIR = r"Chapters\images"
+INPUT_MD_FILE = r"Chapters/02_数列极限.md"
+OUTPUT_TEX_FILE = r"Chapters/02_数列极限.tex"
+OBSIDIAN_IMAGE_DIR = r"Chapters/images"
 OBSIDIAN_PDF_DIR = r"books"
 default_convert_config_path = "default_convert_config.yaml"
+
+
+def fix_latex_env_nesting_with_stack(latex_str):
+    """
+    使用栈结构，彻底解决 Markdown 渲染后 LaTeX 嵌套环境闭合错位的问题。
+    """
+    import re
+    # 拆分文档为 [text, tag, text, tag...]
+    pattern = re.compile(r'(\\(?:begin|end)\{[a-zA-Z0-9_*-]+\})')
+    parts = pattern.split(latex_str)
+
+    stack = []
+    i = 1
+    while i < len(parts):
+        tag = parts[i]
+
+        if tag.startswith(r'\begin'):
+            env = re.search(r'\\begin\{([^\}]+)\}', tag).group(1)
+            stack.append(env)
+            i += 2
+
+        elif tag.startswith(r'\end'):
+            # 找到一个 end，开始向后探索“闭合簇”
+            cluster_indices = [i]
+            envs_in_cluster = [re.search(r'\\end\{([^\}]+)\}', tag).group(1)]
+
+            j = i + 2
+            while j < len(parts):
+                text_between = parts[j - 1]
+                # 核心：允许闭合标签之间有空白、换行和 Mistune 残留的 "}"
+                if not re.match(r'^[\s\}]*$', text_between):
+                    break
+                next_tag = parts[j]
+                if next_tag.startswith(r'\end'):
+                    cluster_indices.append(j)
+                    envs_in_cluster.append(re.search(r'\\end\{([^\}]+)\}', next_tag).group(1))
+                    j += 2
+                else:
+                    break
+
+            # 确定环境在栈中的优先级（从右往左找，越靠近栈顶，越早闭合）
+            def get_stack_priority(e):
+                for k in range(len(stack) - 1, -1, -1):
+                    if stack[k] == e:
+                        return -k  # 加负号，使得栈顶(索引大)排在最前面
+                return 0
+
+            # 按照栈的优先级，对这批 \end 标签重新排序！
+            sorted_envs = sorted(envs_in_cluster, key=get_stack_priority)
+
+            # 回填重排后的正确标签
+            for idx, env in zip(cluster_indices, sorted_envs):
+                parts[idx] = f"\\end{{{env}}}"
+
+            # 从栈中移除这些已闭合的环境
+            for env in sorted_envs:
+                for k in range(len(stack) - 1, -1, -1):
+                    if stack[k] == env:
+                        stack.pop(k)
+                        break
+            i = j
+        else:
+            i += 2
+
+    return "".join(parts)
+
+
 def normalize_display_math(text):
     """
     规范化 $$ 写法，同时【严格保留】公式所在行的前导缩进空格。
@@ -89,54 +156,58 @@ def normalize_display_math(text):
     return '\n'.join(result)
 
 
+
 def process_obsidian_callouts(text):
-    """
-    处理 Callout 标签时，在 \\end{环境} 前后强制增加空行，
-    切断 Markdown 列表的自动延续特性。
-    """
+
     lines = text.split('\n')
     result = []
     in_callout = False
     callout_type = ""
+    callout_indent = ""
 
     for line in lines:
-        stripped_line = line.lstrip()
-        if stripped_line.startswith('>'):
-            content = stripped_line[1:]
-            if content.startswith(' '):
-                content = content[1:]
+        if not in_callout:
+            # 寻找 Callout 起始标志：允许前置缩进，匹配 > [!type] title
+            match = re.match(r'^([ \t]*)(?:>[ \t]*)\[!([a-zA-Z0-9_-]+)\](.*)', line)
+            if match:
+                in_callout = True
+                callout_indent = match.group(1)
+                callout_type = match.group(2).strip()
+                title = match.group(3).strip()
 
-            if not in_callout:
-                match = re.match(r'^\[!([a-zA-Z0-9_-]+)\](.*)', content)
-                if match:
-                    in_callout = True
-                    callout_type = match.group(1).strip()
-                    title = match.group(2).strip()
-                    result.append("")
-                    if title:
-                        result.append(f"\\begin{{{callout_type}}}[{title}]")
-                    else:
-                        result.append(f"\\begin{{{callout_type}}}")
-                else:
-                    result.append(line)
-            else:
-                result.append(content)
-        else:
-            if in_callout:
-                # 【关键修复】：在闭合环境前强行插入空行，彻底阻断上方列表的“贪婪吸收”
+                # 【核心修复1】：在 \begin 之前和之后强加空行，防止和上下文段落粘连
                 result.append("")
-                result.append(f"\\end{{{callout_type}}}")
+                if title:
+                    result.append(f"{callout_indent}\\begin{{{callout_type}}}[{title}]")
+                else:
+                    result.append(f"{callout_indent}\\begin{{{callout_type}}}")
+                result.append("")
+            else:
+                result.append(line)
+        else:
+            # 在 Callout 内部：只要当前行带着 > （以及相应的缩进），就是同一块
+            match_cont = re.match(r'^([ \t]*)(?:>[ \t]?)(.*)', line)
+            if match_cont:
+                # 剥离了 `> `，但保留原始缩进
+                indent = match_cont.group(1)
+                content = match_cont.group(2)
+                result.append(f"{indent}{content}")
+            else:
+                # 遇到不带 > 的行，或者真正的空行，说明 Callout 结束
+                # 【核心修复2】：在 \end 之前强加空行，绝对禁止它被吸入上一行的 \item 里面！！！
+                result.append("")
+                result.append(f"{callout_indent}\\end{{{callout_type}}}")
                 result.append("")
                 in_callout = False
-            result.append(line)
+                result.append(line)
 
+    # 兜底：如果文章末尾还在 Callout 里，及时闭合
     if in_callout:
         result.append("")
-        result.append(f"\\end{{{callout_type}}}")
+        result.append(f"{callout_indent}\\end{{{callout_type}}}")
         result.append("")
 
     return '\n'.join(result)
-
 
 def preprocess_markdown(text, output_dir):
     text = process_obsidian_callouts(text)
@@ -245,16 +316,28 @@ def preprocess_markdown(text, output_dir):
             # 调试信息：如果找不到，打印出它尝试寻找的具体路径
             print(f"警告：找不到图片原文件，请检查路径: {source_path.absolute()}")
 
-        # 返回标准 Markdown 格式，供 LaTeXRenderer 解析
-        # 这里返回文件名即可，Renderer 内部会统一加上 images/ 前缀
-        return f"![{caption}]({filename})"
+        # ==================== 👇 修改这里 👇 ====================
+        # 返回前把空格替换为占位符，防止 Mistune 断行
+        safe_filename = filename.replace(" ", "@@@SPACE@@@")
+        return f"![{caption}]({safe_filename})"
+        # ==================== 👆 修改这里 👆 ====================
 
-    # 匹配普通图片格式 ![[...jpg/png/pdf...]]
-    # 增加对常见格式的兼容，并确保正则捕获组正确
-    image_pattern = r'!\[\[(.*? \.(?:jpg|jpeg|png|pdf|svg|webp)(?:\|.*?)?)\]\]'
+
     # 简化版正则，匹配 ![[内容]] 且内容包含图片后缀
     text = re.sub(r'!\[\[([^\]]*?\.(?:jpg|jpeg|png|pdf|svg|webp)[^\]]*?)\]\]', convert_and_copy_images, text)
 
+    # ==================== 👇 新增这里 👇 ====================
+    # 2. 同时处理标准 Markdown 图片格式 ![alt](url)
+    def convert_standard_image_links(match):
+        caption = match.group(1).strip()
+        path_str = match.group(2).strip()
+        # 保护路径中的空格
+        safe_path = path_str.replace(" ", "@@@SPACE@@@")
+        return f"![{caption}]({safe_path})"
+
+    # 匹配 ![caption](path)
+    text = re.sub(r'!\[(.*?)\]\((.*?)\)', convert_standard_image_links, text)
+    # ==================== 👆 新增这里 👆 ====================
     # 3. 删除剩下的非图片普通双链（如 [[纯文本链接]]）
     text = re.sub(r'\[\[.*?\]\]', '', text)
     # 保护手写的 equation
@@ -322,8 +405,9 @@ def convert(md_path, customer_convert_config_path, output_path):
     # =================================================================
     # 【第一步：占位符替换】在传给 Mistune 之前，把所有的 \\ 和 & 藏起来
     # =================================================================
-    markdown_text = markdown_text.replace(r'\\', '@@@BR@@@').replace('&', '@@@AMP@@@')
-    # =================================================================
+    markdown_text = markdown_text.replace(r'\\', '@@@BR@@@') \
+        .replace('&', '@@@AMP@@@') \
+        .replace('_', '@@@SUB@@@')  # 新增：处理下标符号    # =================================================================
 
     # 【核心修复1】：精准捕捉 $$ 后面的空行！
     markdown_text = re.sub(r'\$\$([ \t]*\n[ \t]*\n)', r'$$\nSAFEPARABREAK\n\n', markdown_text)
@@ -336,26 +420,22 @@ def convert(md_path, customer_convert_config_path, output_path):
     latex = markdown(markdown_text)
 
     # =================================================================
-    # 【第二步：原样还原】在 Mistune 渲染完后，立刻把 \\ 和 & 变回来
+    # 【第二步：原样还原】在渲染完后，立刻变回来
     # =================================================================
-    latex = latex.replace('@@@BR@@@', r'\\').replace('@@@AMP@@@', '&')
-    # =================================================================
+    latex = latex.replace('@@@BR@@@', r'\\') \
+        .replace('@@@AMP@@@', '&') \
+        .replace('@@@SUB@@@', '_') \
+        .replace('@@@SPACE@@@', ' ')
 
-    # =================================================================
+    # 【终极修复】：强行给所有 \includegraphics 的大括号路径套上双引号！
+
+    latex = re.sub(r'\\includegraphics(\[.*?\])?\{([^}"]+)\}', r'\\includegraphics\1{"\2"}', latex)
+    # ==================== 👇 1. 新增：调用基于栈的闭合修复函数 👇 ====================
+    latex = fix_latex_env_nesting_with_stack(latex)
+
     # 【追加修复】：将错位的 } 和 \end{enumerate} 移出 $$ 公式环境
     # =================================================================
     latex = re.sub(r'\}\s*(\\end\{(?:enumerate|itemize)\})\s*\$\$', r'\n$$\n}\n\1\n', latex)
-    # =================================================================
-    # 【环境重组手术】：修复嵌套环境闭合顺序错误的致命问题
-    # 把 \end{problem} 挪到 \end{enumerate} 的后面
-    # =================================================================
-    # 匹配模式： \end{环境A} } \end{环境B}
-    # 目标模式： } \end{环境B} \end{环境A}
-    latex = re.sub(
-        r'(\\end\{[a-zA-Z0-9_-]+\})\s*\}\s*(\\end\{(?:enumerate|itemize)\})',
-        r'}\n\2\n\1',
-        latex
-    )
     # =================================================================
 
     # 1. 修复 \end{aligned}\tag{x} 结构
@@ -465,8 +545,8 @@ def convert(md_path, customer_convert_config_path, output_path):
     # 注意：删除 $$ 后面空行的代码依然保持注释状态，这样就能原汁原味保留你的排版意图！
     # latex = re.sub(r'\$\$\s*\n\s*\n', r'$$\n', latex)
     # ---------------------------------------------------------------------
-    latex = re.sub(r'\n\s*\n\s*\$\$', r'\n$$', latex)  # 删掉 $$ 前面的多余换行
-    latex = re.sub(r'\$\$\s*\n\s*\n', r'$$\n', latex)  # 删掉 $$ 后面的多余换行
+    # latex = re.sub(r'\n\s*\n\s*\$\$', r'\n$$', latex)  # 删掉 $$ 前面的多余换行
+    # latex = re.sub(r'\$\$\s*\n\s*\n', r'$$\n', latex)  # 删掉 $$ 后面的多余换行
     # =================================================================
     # 【新增修复】：强行保护移动参数（caption/section）中的公式，防止崩溃
     # =================================================================

@@ -1,0 +1,518 @@
+\chapter{数列极限}
+
+\section{数列极限的定义和性质}
+
+\begin{definition}[数列极限]
+
+数列 $\displaystyle \lbrace a_n \rbrace$ 收敛于 ${\alpha}$（即以 ${\alpha}$ 为极限）的定义是：
+
+$$
+\displaystyle \lim_{n \to \infty} a_n = {\alpha} \iff \forall {\varepsilon} > 0, \exists N \in \mathbb{N}_{+}, \text{s.t. } \forall n > N, \vert a_n - {\alpha} \vert < {\varepsilon}
+$$
+
+\end{definition}
+
+\begin{proposition}[数列极限的性质]
+
+三个性质：唯一性、有界性和保序性
+
+\begin{enumerate}
+  \item {\textbf{唯一性}：若数列 $\displaystyle \lbrace a_n \rbrace$ 收敛，则其极限是唯一的。}\item {\textbf{有界性}：若数列 $\displaystyle \lbrace a_n \rbrace$ 收敛，则该数列必有界。}\item {\textbf{保序性}（保号性推广）：若 $\displaystyle \lim_{n \to \infty} a_n = {\alpha}$，$\displaystyle \lim_{n \to \infty} b_n = \beta$，且从某项起有 $\displaystyle a_n \le b_n$，则 $\displaystyle {\alpha} \le \beta$。}
+\end{enumerate}
+
+\end{proposition}
+
+只证明有界性：设 $\displaystyle \lim_{n \to \infty} a_n = {\alpha}$。取 $\displaystyle {\varepsilon} = 1$。由极限定义，存在正整数 $\displaystyle N$，使得当 $\displaystyle n > N$ 时，有：
+
+$$
+\displaystyle \vert a_n - {\alpha} \vert < 1 \implies {\alpha} - 1 < a_n < {\alpha} + 1
+$$
+
+令 $\displaystyle M = \max \lbrace \vert a_1 \vert, \vert a_2 \vert, \dots, \vert a_N \vert, \vert {\alpha} - 1 \vert, \vert {\alpha} + 1 \vert \rbrace$。则对于所有的正整数 $\displaystyle n$，都有 $\displaystyle \vert a_n \vert \le M$。（注：这里使用了截断法。虽然简单，但是在之后的 (\ref{Cauchythm}) 、一致收敛性，还有积分收敛什么定理里面都有所体现）
+
+\begin{theorem}[夹逼准则]
+
+设 $\displaystyle \lbrace a_n \rbrace$，$\displaystyle \lbrace b_n \rbrace$ 和 $\displaystyle \lbrace c_n \rbrace$ 是三个数列。若存在正整数 $\displaystyle N_0$，使得当 $\displaystyle n > N_0$ 时，满足：
+
+\begin{enumerate}
+  \item {$\displaystyle a_n \le b_n \le c_n$；
+
+}\item {$\displaystyle \lim_{n \to \infty} a_n = {\alpha}$ 且 $\displaystyle \lim_{n \to \infty} c_n = {\alpha}$。
+
+则数列 $\displaystyle \lbrace b_n \rbrace$ 的极限存在，且 $\displaystyle \lim_{n \to \infty} b_n = {\alpha}$。
+
+}
+\end{enumerate}
+
+\end{theorem}
+
+用保序性证明
+
+\begin{corollary}[数列极限的四则运算法则]
+
+若数列 $\displaystyle \lbrace a_n \rbrace$ 与 $\displaystyle \lbrace b_n \rbrace$ 均为收敛数列，且 $\displaystyle \lim_{n \to \infty} a_n = {\alpha}$，$\displaystyle \lim_{n \to \infty} b_n = \beta$，则有以下结论：
+
+\begin{enumerate}
+  \item {加减法：$\displaystyle \lim_{n \to \infty} (\lambda a_n \pm \mu b_n) = \lambda{\alpha} \pm \mu\beta$}\item {乘法：$\displaystyle \lim_{n \to \infty} (a_n \cdot b_n) = {\alpha} \cdot \beta$}\item {除法：若 $\displaystyle \beta \ne 0$，且从某项起 $\displaystyle b_n \ne 0$，则 $\displaystyle \lim_{n \to \infty} \dfrac{a_n}{b_n} = \dfrac{{\alpha}}{\beta}$}
+\end{enumerate}
+
+\end{corollary}
+
+以乘法为例证明：
+
+$$
+\displaystyle \vert a_n b_n - {\alpha}\beta \vert = \vert a_n b_n - a_n \beta + a_n \beta - {\alpha}\beta \vert = \vert a_n(b_n - \beta) + \beta(a_n - {\alpha}) \vert
+$$
+
+由三角不等式：
+
+$$
+\displaystyle \vert a_n b_n - {\alpha}\beta \vert \le \vert a_n \vert \cdot \vert b_n - \beta \vert + \vert \beta \vert \cdot \vert a_n - {\alpha} \vert
+$$
+
+接下来利用 $\displaystyle \lbrace a_n \rbrace$ 和 $\beta$ 的有界性证明。除法可以先证明 $\displaystyle \lim_{n \to \infty} \dfrac{1}{b_n} = \dfrac{1}{\beta}$ 然后再利用乘法的结论。
+
+\begin{definition}[单调有界原理]
+
+若数列 $\displaystyle \lbrace a_n \rbrace$ 单调且有界，则该数列必收敛。
+
+\end{definition}
+
+证明：设 $\displaystyle \lbrace a_n \rbrace$ 为单调增加数列，且有上界。根据确界原理 (\ref{Completeness_Axiom}) ，必有上确界，记为 $\displaystyle {\alpha}$。证明 $\displaystyle \lim_{n \to \infty} a_n = {\alpha}$。
+
+\begin{theorem}[数列无尽和无穷大的定义]
+
+无穷大一定无界：
+
+\begin{itemize}
+  \item {\textbf{数列 $\displaystyle \lbrace x_n \rbrace$ 无界}（一人得道，鸡犬升天）的数学定义为：对任意给定的常数 $\displaystyle M > 0$ 和\textbf{任意}的正整数 $\displaystyle N \in \mathbb{N}^+$，总\textbf{存在} $\displaystyle n > N$，使得：$$
+\displaystyle \vert x_n \vert > M$$
+即：$\displaystyle \forall M > 0, \forall N \in \mathbb{N}^+,  \exists  n > N, \vert x_n \vert > M$。}\item {\textbf{数列趋于无穷大}（子子孙孙都要卷，$\displaystyle \lim_{n \to \infty} x_n = \infty$）定义为：对于任意给定的常数 $\displaystyle M > 0$，总\textbf{存在}正整数 $\displaystyle N \in \mathbb{N}^+$，使得对于\textbf{任意}的 $\displaystyle n > N$，均有：\begin{equation}\displaystyle \vert x_n \vert > M\end{equation}即：$\displaystyle \forall M > 0, \exists N \in \mathbb{N}^+, \forall n > N, \vert x_n \vert > M$。}
+\end{itemize}
+
+\end{theorem}
+
+\section{Cauchy 命题与 Stolz 定理}
+
+\begin{theorem}[Cauchy 命题（Cauchy 第一极限定理）截断法证明]
+
+\label{Cauchythm}若 $\displaystyle \lim_{n \to \infty} x_n = A$，则：
+
+\begin{equation}
+\displaystyle \lim_{n \to \infty} \dfrac{x_1 + x_2 + \dots + x_n}{n} = A
+\end{equation}
+
+\end{theorem}
+
+因为 $\displaystyle \lim_{n \to \infty} a_n = A$，所以对任意给定的 $\displaystyle \epsilon > 0$，存在正整数 $\displaystyle N_1$，使得当 $\displaystyle n > N_1$ 时，恒有：
+
+$$
+\displaystyle \vert a_n - A \vert < \dfrac{\epsilon}{2}
+$$
+
+根据绝对值的三角不等式，可将其分为前 $\displaystyle N_1$ 项和后面的 $\displaystyle n - N_1$ 项两部分：
+
+$$
+\displaystyle \left\vert \dfrac{a_1 + a_2 + \cdots + a_n}{n} - A \right\vert \le \dfrac{1}{n} \sum_{k=1}^{N_1} \vert a_k - A \vert + \dfrac{1}{n} \sum_{k=N_1+1}^n \vert a_k - A \vert
+$$
+
+由于 $\displaystyle N_1$ 已经固定，所以第一项可以取正整数 $\displaystyle N_2$，使得当 $\displaystyle n > N_2$ 时，这一项也小于 $\dfrac{\epsilon}{2}$.\uline{Cauchy 第一极限定理对于趋于无穷大的情形依然适用}
+
+\textbf{Stolz-Cesàro 定理}是处理数列极限的“离散形式的洛必达法则”，主要用于解决 $\displaystyle\dfrac{\infty}{\infty}$ 型和 $\displaystyle\dfrac{0}{0}$ 型的不定式极限问题。
+
+\begin{theorem}[Stolz-Cesàro 定理（$\displaystyle \infty$ 比$\displaystyle \infty$ 型）]
+
+\label{Stolzoo}设有两个实数数列 $\displaystyle\lbrace a_n \displaystyle\rbrace$ 和 $\displaystyle\lbrace b_n \displaystyle\rbrace$，如果它们满足以下条件：
+
+\begin{itemize}
+  \item {分母数列 $\displaystyle\lbrace a_n \displaystyle\rbrace$ 是严格单调递增的，并且 $\displaystyle\lim_{n \to \infty} a_n = +\infty$}\item {差分比值的极限存在，即 $\displaystyle\lim_{n \to \infty} \displaystyle\dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} = \ell$（其中 $\ell$ 可以是实数、$+\infty$ 或 $-\infty$）}
+\end{itemize}
+
+那么可以得出结论：
+
+\begin{equation}\displaystyle\lim_{n \to \infty}\displaystyle\dfrac{b_n}{a_n} =\lim_{n \to \infty} \dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} = \ell\end{equation}
+
+\end{theorem}
+
+根据极限值 $\displaystyle \ell$ 的情况，分为有限实数和无穷大进行讨论证明。
+
+\subsubsection{当 $\displaystyle \ell$ 为有限实数时}
+
+根据 $\displaystyle\lim_{n \to \infty} \displaystyle\dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} = \ell$，$\forall \epsilon > 0,\exists N_{1}\in\mathbb{N} ,\quad \text{when} \ n \ge N_1,\displaystyle \left\vert \dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} - \ell \right\vert < \dfrac{\epsilon}{2}$
+
+因为分母数列 $\displaystyle \lbrace a_n \rbrace$ 严格单调递增，即 $\displaystyle a_{n+1} - a_n > 0$，去绝对值并乘以分母可得：
+
+$$
+\displaystyle -\dfrac{\epsilon}{2}(a_{n+1} - a_n) < (b_{n+1} - b_n) - \ell(a_{n+1} - a_n) < \dfrac{\epsilon}{2}(a_{n+1} - a_n)
+$$
+
+对上述不等式从 $\displaystyle k = N_1$ 到 $\displaystyle n-1$ 累加：
+
+$$
+\displaystyle -\dfrac{\epsilon}{2} (a_n - a_{N_1}) < (b_n - b_{N_1}) - \ell(a_n - a_{N_1}) < \dfrac{\epsilon}{2} (a_n - a_{N_1})
+$$
+
+整理中间的顺序，即：
+
+$$
+\displaystyle \left\vert (b_n - \ell a_n) - (b_{N_1} - \ell a_{N_1}) \right\vert < \dfrac{\epsilon}{2} (a_n - a_{N_1})
+$$
+
+利用绝对值三角不等式 $\displaystyle \vert x \vert - \vert y \vert \le \vert x - y \vert$，放缩为：
+
+$$
+\displaystyle \vert b_n - \ell a_n \vert-\vert b_{N_1} - \ell a_{N_1} \vert < \dfrac{\epsilon}{2} (a_n - a_{N_1})
+$$
+
+当 $\displaystyle n$ 足够大时，必有 $\displaystyle a_n > 0$。移项，考虑 $\left\vert \dfrac{b_n}{a_n} - \ell \right\vert$，两边同除以 $\displaystyle a_n$：
+
+$$
+\displaystyle \left\vert \dfrac{b_n}{a_n} - \ell \right\vert < \dfrac{\epsilon}{2} \left( 1 - \dfrac{a_{N_1}}{a_n} \right) + \dfrac{\vert b_{N_1} - \ell a_{N_1} \vert}{a_n} < \dfrac{\epsilon}{2} + \dfrac{\vert b_{N_1} - \ell a_{N_1} \vert}{a_n}<_{n \to+\infty}\epsilon
+$$
+
+
+
+
+
+\subsubsection{当 $\displaystyle \ell = +\infty$ 时}
+
+根据趋于正无穷的极限定义，$\forall M> 0,\exists N_{1}\in\mathbb{N} ,\quad \text{when} \ n \ge N_1,\displaystyle \left\vert \dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} - \ell \right\vert >2M$。同理，因为 $\displaystyle a_{n+1} - a_n > 0$，移项可得：
+
+$$
+\displaystyle b_{n+1} - b_n > 2M(a_{n+1} - a_n)
+$$
+
+从 $\displaystyle k = N_1$ 到 $\displaystyle n-1$ 累加并抵消中间项可得：
+
+$$
+\displaystyle b_n - b_{N_1} > 2M(a_n - a_{N_1})
+$$
+
+整理得到：
+
+$$
+\displaystyle \dfrac{b_n}{a_n} > 2M + \dfrac{b_{N_1} - 2M a_{N_1}}{a_n}>_{n \to+\infty}M
+$$
+
+\begin{theorem}[Stolz-Cesàro 定理（$\displaystyle 0$ 比$\displaystyle 0$ 型）]
+
+\label{Stolz0}对于 $\displaystyle\dfrac{0}{0}$ 型的数列极限，定理的条件如下：
+
+\begin{itemize}
+  \item {$\displaystyle\lim_{n \to \infty} a_n = 0$ 且 $\displaystyle\lim_{n \to \infty} b_n = 0$}\item {分母数列 $\displaystyle\lbrace a_n \displaystyle\rbrace$ 严格单调递减（或严格单调递增）}\item {差分比值的极限存在，即 $\displaystyle\lim_{n \to \infty} \dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} = \ell$}
+\end{itemize}
+
+那么同样有：
+
+\begin{equation}\displaystyle\lim_{n \to \infty}\displaystyle\dfrac{b_n}{a_n} =\lim_{n \to \infty} \dfrac{b_{n+1} - b_n}{a_{n+1} - a_n} = \ell\end{equation}
+
+\end{theorem}
+
+同理可证
+
+\section{自然对数的底 e 和 Euler 常数 γ}
+
+\section{课后习题}
+
+\subsection{放缩}
+
+\subsubsection{局部放缩法}
+
+\begin{exercise}[适当拆分构造均值不等式]
+
+证明数列 $\displaystyle \lbrace \sqrt[n]{n} \rbrace$ 的极限是 $1$
+
+证明：在 $\displaystyle n \ge 2$ 时，利用 \textbf{算术-几何均值不等式} 放缩：
+
+$$
+\displaystyle 1 \le \sqrt[n]{n} = \Big( \sqrt{n} \cdot \sqrt{n} \cdot \underbrace{1 \cdot 1 \cdot \dots \cdot 1}_{n-2 \text{ 个 } 1} \Big)^{\frac{1}{n}} < \dfrac{\sqrt{n} + \sqrt{n} + (n-2)}{n} < 1 + \dfrac{2}{\sqrt{n}}
+$$
+
+\end{exercise}
+
+有很多种变形：
+
+\begin{itemize}
+  \item {同样的方法可以证明：若 $\displaystyle 1 \le a_n \le n^k$（不必收敛，其中 $\displaystyle k$ 为固定正整数），则 $\displaystyle \lim_{n \to \infty} \sqrt[n]{a_n} = 1$，比如：$$
+\displaystyle\lim_{n \to \infty} \Big( 1 + \dfrac{1}{2} + \dots + \dfrac{1}{n} \Big)^{\frac{1}{n}}= 1$$
+}\item {可以用于证明一个夹逼定理的经典结论：$$
+\displaystyle \lim_{n \to \infty} \sqrt[n]{a_1^n + a_2^n + \dots + a_p^n} = \max \lbrace a_1, a_2, \dots, a_p \rbrace$$
+等等}
+\end{itemize}
+
+\begin{exercise}[（P35，例题）数量级较小的项目放大成次小项]
+
+求数列 $\displaystyle a_n = \dfrac{1! + 2! + \dots + n!}{n!}$ 的极限
+
+\end{exercise}
+
+将分子中（设 $\displaystyle n > 2$）的前 $\displaystyle n-2$ 项适当放大。因此，在 $\displaystyle n > 2$ 时，有如下夹逼估计：
+
+$$
+\displaystyle 1 < \dfrac{1! + 2! + \dots + n!}{n!} < \dfrac{2(n-1)! + n!}{n!} = \dfrac{2}{n} + 1
+$$
+
+这道题使用 Stolz 公式 (\ref{Stolz0}) 更快
+
+\subsection{递推}
+
+\subsubsection{利用函数性质递推}
+
+\begin{exercise}[利用三角函数简化递推]
+
+求极限 $\displaystyle \lim_{n \to \infty} \cos\dfrac{x}{2} \cos\dfrac{x}{2^2} \dots \cos\dfrac{x}{2^n}, x \in (0, \pi)$.
+
+\end{exercise}
+
+令 $\displaystyle A = \lim_{n \to \infty} \cos\dfrac{x}{2} \cos\dfrac{x}{2^2} \dots \cos\dfrac{x}{2^n}$，则有：
+
+$$
+\displaystyle A \sin\frac{x}{2^n} = \dfrac{1}{2^n} \sin x\implies\displaystyle \lim_{n \to \infty} \dfrac{\sin x}{2^n \sin\frac{x}{2^n}} = \lim_{n \to \infty} \dfrac{\sin x}{2^n \cdot \dfrac{x}{2^n}} \cdot \lim_{n \to \infty} \dfrac{\dfrac{x}{2^n}}{\sin\frac{x}{2^n}} = \dfrac{\sin x}{x}
+$$
+
+设数列 $\{a_n\}$ 满足 $a_1 = \sqrt{2}, a_{n+1} = \sqrt{2+a_n}$，求极限 $\displaystyle \lim_{n \to \infty} \dfrac{2^n}{a_1 a_2 \dots a_n}$.设 $\displaystyle b_n = \dfrac{a_n}{2}$，于是 $\displaystyle b_1 = \dfrac{\sqrt{2}}{2} = \cos\dfrac{\pi}{4}$，由 $\displaystyle 2b_{n+1} = \sqrt{2 + 2b_n}$ 可得 $\displaystyle b_{n+1} = \sqrt{\dfrac{1}{2} + \dfrac{1}{2} b_n}$.则 $\displaystyle b_2 = \sqrt{\dfrac{1}{2}(1 + b_1)} = \cos\dfrac{\pi}{8} \dots b_n = \cos\dfrac{\pi}{2^{n+1}}$，原式 $\displaystyle = \lim_{n \to \infty} \dfrac{1}{\cos\dfrac{\pi}{2^2} \cos\dfrac{\pi}{2^3} \dots \cos\dfrac{\pi}{2^{n+1}}} = \dfrac{\frac{\pi}{2}}{\sin\frac{\pi}{2}} = \dfrac{\pi}{2}$.
+
+\subsubsection{辅助数列递推}
+
+\begin{problem}[（每日一题思考题 1，东北师范大学2026）辅助数列，单调有界必有极限]
+
+设正数列 $\displaystyle \lbrace a_n \rbrace$ 满足 $\displaystyle a_{n+1} \le a_n + \dfrac{1}{2026^n}$. 证明数列 $\displaystyle \lbrace a_n \rbrace$ 收敛.
+
+\end{problem}
+
+递推可得 $\displaystyle a_{n+1} \le a_1 + \sum_{k=1}^{n}\dfrac{1}{2026^k}$，记 $\displaystyle b_{n}=\sum_{k=1}^{n}\dfrac{1}{2026^k}$。可以得到递推式：
+
+$$
+a_{n+1}-b_{n+1}\leq a_{n}-b_{n}
+$$
+
+于是数列 $\displaystyle \lbrace a_n -b_{n}\rbrace$ 单调递减，且有下界，从而收敛，而数列 $\displaystyle \lbrace b_n \rbrace$ 也收敛，所以数列 $\displaystyle \lbrace a_n \rbrace$ 收敛。（直观条件下看不出收敛情况的时候可以考虑辅助数列，用\textbf{两个数列的和差}来考察）
+
+\begin{exercise}[（每日一题例题 2，上海大学2026）]
+
+设 $\displaystyle a_n \ge 0$，$\displaystyle a_{n+1} - a_n \le \int_n^{n+1} \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t$，判断 $\displaystyle \lbrace a_n \rbrace$ 是否收敛。
+
+\end{exercise}
+
+递推可得 $\displaystyle a_{n+1} - a_1 \le \sum_{k=1}^{n}\int_k^{k+1} \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t$，记 $\displaystyle b_n = \int_1^n \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t \ (n = 1, 2, \cdots)$，根据已知，有:
+
+$$
+\displaystyle a_{n+1} - a_n \le \int_n^{n+1} \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t = b_{n+1} - b_n
+$$
+
+也就是数列 $\displaystyle \lbrace a_n - b_n \rbrace$ 单调递减。
+
+另外，由于
+
+$$
+\displaystyle 0 < \dfrac{1}{t \ln^2 t + \sin^2 t} \le \dfrac{1}{t \ln^2 t}, \ t \in [2, +\infty)
+$$
+
+其中反常积分
+
+$$
+\displaystyle \int_2^{+\infty} \dfrac{1}{t \ln^2 t} \mathrm{d}t = \int_2^{+\infty} \dfrac{\mathrm{d}(\ln t)}{\ln^2 t}
+$$
+
+收敛，所以 $\displaystyle \int_2^{+\infty} \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t$ 收敛，自然 $\displaystyle \int_1^{+\infty} \dfrac{1}{t \ln^2 t + \sin^2 t} \mathrm{d}t$ 也收敛，进而 $\displaystyle \lbrace b_n \rbrace$ 收敛，那么 $\displaystyle \lbrace b_n \rbrace$ 有界。
+
+而 $\displaystyle a_n \ge 0$，因此 $\displaystyle \lbrace a_n - b_n \rbrace$ 有下界，根据单调有界定理可知 $\displaystyle \lbrace a_n - b_n \rbrace$ 收敛。
+
+又因为
+
+$$
+\displaystyle a_n = (a_n - b_n) + b_n
+$$
+
+结合极限的四则运算可知数列 $\displaystyle \lbrace a_n \rbrace$ 收敛。
+
+\subsection{Cauchy 命题（ (\ref{Cauchythm}) ）}
+
+\begin{proposition}[（柯西极限第二定理；P37.6；每日一题例题 4，北京邮电大学2026）]
+
+\label{Cauchythm2}设 $a_n > 0, n = 1, 2, 3, \dots$，若 $\displaystyle \lim_{n \to \infty} \dfrac{a_{n+1}}{a_n} = l$，$l$ 为常数，证明：$\displaystyle \lim_{n \to \infty} \sqrt[n]{a_n} = l$。
+
+\end{proposition}
+
+解：$\displaystyle \sqrt[n]{a_n} =  e^{\frac{1}{n} \ln a_n}= \exp\left( {\dfrac{\ln a_1 + \ln \dfrac{a_2}{a_1} + \ln \dfrac{a_3}{a_2} + \dots + \ln \dfrac{a_n}{a_{n-1}}}{n}} \right)$，应用柯西极限第一定理。
+
+\begin{problem}[（每日一题例题 5，吉林大学2026）]
+
+求极限 $\displaystyle \lim_{n \to \infty} \dfrac{\sqrt[n]{(3n)!}}{n^3}$。
+
+\end{problem}
+
+\noindent\textbf{解法一}：Stirling公式——$\displaystyle \lim_{n \to \infty} \dfrac{\sqrt[n]{(3n)!}}{n^3} = \lim_{n \to \infty} \dfrac{\left[ \sqrt{6\pi n} \left( \dfrac{3n}{e} \right)^{3n} \right]^{\frac{1}{n}}}{n^3}=\displaystyle \lim_{n \to \infty} \dfrac{1 \cdot \dfrac{27n^3}{e^3}}{n^3} = \dfrac{27}{e^3}$。
+
+\noindent\textbf{解法二}：使用柯西极限第二定理 (\ref{Cauchythm2}) ，令 $\displaystyle a_n = \dfrac{(3n)!}{n^{3n}} > 0$，由于原式可以写为：
+
+$$
+\displaystyle \lim_{n \to \infty} \dfrac{\sqrt[n]{(3n)!}}{n^3}=\lim_{n \to \infty} \sqrt[n]{a_n} = \lim_{n \to \infty} e^{\frac{1}{n} \ln a_n} = \exp\left( {\dfrac{\ln a_1 + \ln \dfrac{a_2}{a_1} + \ln \dfrac{a_3}{a_2} + \dots + \ln \dfrac{a_n}{a_{n-1}}}{n}} \right)
+$$
+
+计算相邻项比值的极限：$\displaystyle \dfrac{a_{n+1}}{a_n} = \dfrac{(3n+3)!}{(n+1)^{3n+3}} \cdot \dfrac{n^{3n}}{(3n)!}= \dfrac{3(n+1)(3n+2)(3n+1)}{(n+1)^3} \cdot \left[ \left( 1 + \dfrac{1}{n} \right)^n \right]^{-3}\to \dfrac{27}{e^3},\ n\to \infty$，因此可得原式极限为 $\displaystyle \dfrac{27}{e^3}$。
+
+\begin{exercise}[（每日一题思考题 4，吉林大学2026）适当拆分求积分]
+
+\label{exercisemryt4}求极限 $\displaystyle \lim_{n \to \infty} \left[ \left( \dfrac{\ln((n+1)!)}{n+1} - \dfrac{\ln(n!)}{n} \right) \sum_{k=1}^n \sqrt[k]{k^2 + \sin k} \right]$。
+
+\end{exercise}
+
+显然要分成两部分算的（不然太复杂算不了）。但是怎么可能这么简单，简单放缩一下就能发现 $\displaystyle \sum_{k=1}^n \sqrt[k]{k^2 + \sin k}>\sum_{k=1}^n \sqrt[k]{1}=n$，尝试如下分割：
+
+$$
+\displaystyle x_{n+1} - x_n = \left[ (n+1) \ln(n+2) - \ln((n+1)!) \right] - \left[ n \ln(n+1) - \ln(n!) \right]
+$$
+
+\noindent\textbf{第一部分} $\displaystyle \left( \dfrac{\ln((n+1)!)}{n+1} - \dfrac{\ln(n!)}{n} \right)n$ ：
+
+$$
+\begin{aligned}
+	\displaystyle \lim_{n \to \infty} n \left( \dfrac{\ln((n+1)!)}{n+1} - \dfrac{\ln(n!)}{n} \right)&=\lim_{n \to \infty}\dfrac{n\ln(n+1) - \ln(n!)}{n+1}=\lim_{n \to \infty} \dfrac{x_n\uparrow +\infty}{y_n\uparrow +\infty}
+	\xlongequal{Stolz公式} \lim_{n \to \infty} \dfrac{x_{n+1} - x_n}{y_{n+1} - y_n}\\&=\dfrac{\left[ (n+1) \ln(n+2) - \ln((n+1)!) \right] - \left[ n \ln(n+1) - \ln(n!) \right]}{1}\\
+	&=\lim_{n \to \infty} {(n+1) \ln \left( 1 + \dfrac{1}{n+1} \right)}=1
+ \end{aligned}
+$$
+
+\noindent\textbf{第二部分} $\displaystyle \dfrac{1}{n}\sum_{k=1}^n \sqrt[k]{k^2 + \sin k}$ ：使用柯西极限第一极限定理 (\ref{Cauchythm}) 可得极限为 $1$。
+
+\subsubsection{截断法}
+
+\begin{exercise}[截断构造无穷小量]
+
+设已知 $\displaystyle \lim_{n \to \infty} a_n = a$，证明：$\displaystyle \lim_{n \to \infty} \dfrac{1}{2^n} \sum_{k=0}^{n} \binom{n}{k} a_k = a$
+
+\end{exercise}
+
+利用二项式定理，可以将待证式写成差的形式：
+
+$$
+\displaystyle \left| \dfrac{1}{2^n} \sum_{k=0}^{n} \binom{n}{k} a_k - a \right| = \left| \dfrac{1}{2^n} \sum_{k=0}^{n} \binom{n}{k} (a_k - a) \right|\le \underbrace{\dfrac{1}{2^n} \sum_{k=0}^{N_1} \binom{n}{k} |a_k - a|}_{\text{I}} + \underbrace{\dfrac{1}{2^n} \sum_{k=N_1+1}^{n} \binom{n}{k} |a_k - a|}_{\text{II}}
+$$
+
+对于任意给定的 $\epsilon > 0$：
+
+\begin{itemize}
+  \item {I：对于前 $N_1$ 项，有限个绝对值之和 $\displaystyle M = \sum_{k=0}^{N_1} \binom{n}{k} |a_k - a|$ （里面的 $\displaystyle\binom{n}{k}$）是 $2^n$ 的低阶无穷小；}\item {II：因为 $\displaystyle \lim_{k \to \infty} a_k - a = 0$，存在 $N_1$，使得当 $k > N_1$ 时，$\displaystyle |a_k - a| < \dfrac{\epsilon}{2}$。}
+\end{itemize}
+
+\subsection{Stolz 公式（ (\ref{Stolz0})， (\ref{Stolzoo})  ）}
+
+\subsubsection{递推使用 Stolz}
+
+\begin{problem}[（每日一题例题 6，北京科技大学2026）]
+
+设 $\displaystyle \lbrace x_n \rbrace$ 满足：
+
+$$
+\displaystyle x_1 = 1, \ x_{n+1} = x_n + \dfrac{1}{2x_n} \ (n = 1, 2, \cdots) .
+$$
+
+求极限 $\displaystyle \lim_{n \to \infty} \dfrac{x_n^2 - n}{\ln n}$。
+
+\end{problem}
+
+利用 Stolz 公式，这里 $\displaystyle a_n = x_n^2 - n$，$\displaystyle b_n = \ln n$。由于 $\displaystyle \lbrace b_n \rbrace$ 严格单调增加且趋于无穷，考虑 $\displaystyle \dfrac{a_{n+1} - a_n}{b_{n+1} - b_n}$：
+
+$$
+\begin{aligned}\dfrac{a_{n+1} - a_n}{b_{n+1} - b_n}&=\dfrac{(x_{n+1}^2 - (n+1)) - (x_n^2 - n)}{\ln(n+1) - \ln n} = \dfrac{(x_{n+1}+ x_n) (x_{n+1}- x_n)- 1}{\ln(1 + \dfrac{1}{n})}\\
+&=\dfrac{1/(4x_n^2)}{\ln(1 + \dfrac{1}{n})}\end{aligned}
+$$
+
+这里分子分母的阶数都比较低，已知：$\displaystyle \ln(1 + \frac{1}{n}) \sim \dfrac{1}{n}$ 且 $\displaystyle\lim_{n \to \infty} n\ln(1 + \dfrac{1}{n})=1$，所以据此拆分：
+
+$$
+\dfrac{a_{n+1} - a_n}{b_{n+1} - b_n}=\dfrac{1/(4x_n^2)}{\ln(1 + \dfrac{1}{n})}=\dfrac{n/(4x_n^2)}{n\ln(1 + \dfrac{1}{n})}
+$$
+
+对于分子的极限，考虑使用 Stolz 公式，先证明数列 $\{x_n\}$ 不收敛：
+
+\begin{itemize}
+  \item {由于 $\displaystyle x_1 = 1 > 0$，由递推公式显然有 $\displaystyle x_{n+1} > x_n$。因此 $\displaystyle \{x_n\}$ 是严格单增数列。}\item {假设 $\displaystyle \{x_n\}$ 有界，则单调有界必定收敛，设 $\displaystyle \lim_{n \to \infty} x_n = A$。递推公式两边取极限得：$\displaystyle A = A + \dfrac{1}{2A}$，矛盾。}
+\end{itemize}
+
+由于 $\displaystyle \lbrace 4x_n^2 \rbrace$ 严格单调增加且趋于无穷，因而：
+
+$$
+\displaystyle \lim_{n \to \infty} \dfrac{n}{4x_n^2} \xlongequal{Stolz公式} \lim_{n \to \infty} \dfrac{(n+1) - n}{4x_{n+1}^2 - 4x_n^2} = \lim_{n \to \infty} \dfrac{1}{4\left( 1 + \dfrac{1}{4x_n^2} \right)}=\dfrac14
+$$
+
+综上，
+
+$$
+\displaystyle \lim_{n \to \infty} \dfrac{x_n^2 - n}{\ln n}\xlongequal{Stolz公式} \lim_{n \to \infty}\dfrac{a_{n+1} - a_n}{b_{n+1} - b_n}=\lim_{n \to \infty}\dfrac{n/(4x_n^2)}{n\ln(1 + \dfrac{1}{n})}=\dfrac{\displaystyle\lim_{n \to \infty}n/(4x_n^2)}{\displaystyle\lim_{n \to \infty}n\ln(1 + \dfrac{1}{n})}=\dfrac14
+$$
+
+\begin{exercise}[Stolz 递推常利用平方差]
+
+设 $\displaystyle a_1 > 0, a_{n+1} = a_n + \dfrac{1}{a_n}, n \in \mathbb{N}_+$，证明 $\displaystyle \lim_{n \to \infty} \dfrac{a_n}{\sqrt{2n}} = 1$。
+
+\end{exercise}
+
+证明：由于 $\displaystyle a_1 > 0$ ，数列 $\displaystyle \lbrace a_n \rbrace$ 严格单调增加。若数列有上界，则必有极限 $\displaystyle a$。对递推式两边取极限得 $\displaystyle a = a + \dfrac{1}{a}$，这对于有限数 $\displaystyle a$ 是不可能成立。因此 $\displaystyle \lim_{n \to \infty} a_n = +\infty$。为了证明 $\displaystyle \lim_{n \to \infty} \dfrac{a_n}{\sqrt{2n}} = 1$，等价于证明 $\displaystyle \lim_{n \to \infty} \dfrac{a_n^2}{2n} = 1$。
+
+设 $\displaystyle b_n = a_n^2$，$c_n = 2n$。显然 $\displaystyle \lbrace c_n \rbrace$ 严格单调增加且趋于 $\displaystyle +\infty$。
+
+考察差分比值：
+
+$$
+\displaystyle \dfrac{b_{n+1} - b_n}{c_{n+1} - c_n} = \dfrac{a_{n+1}^2 - a_n^2}{2(n+1) - 2n} = \dfrac{(a_n + \dfrac{1}{a_n})^2 - a_n^2}{2}= 1 + \dfrac{1}{2a_n^2}
+$$
+
+由于已经证明 $\displaystyle \lim_{n \to \infty} a_n = +\infty$，因此：
+
+$$
+\displaystyle \lim_{n \to \infty} \dfrac{a_n^2}{2n}\xlongequal{Stolz公式} \lim_{n \to \infty} \dfrac{b_{n+1} - b_n}{c_{n+1} - c_n} = \lim_{n \to \infty} \left( 1 + \dfrac{1}{2a_n^2} \right) = 1\implies\displaystyle \lim_{n \to \infty} \dfrac{a_n}{\sqrt{2n}} = 1
+$$
+
+
+
+
+
+\subsubsection{差分使用 Stolz}
+
+\begin{exercise}[（每日一题思考题 4，吉林大学2026）]
+
+求极限 $\displaystyle \lim_{n \to \infty} \left[ \left( \dfrac{\ln((n+1)!)}{n+1} - \dfrac{\ln(n!)}{n} \right) \sum_{k=1}^n \sqrt[k]{k^2 + \sin k} \right]$。
+
+\end{exercise}
+
+见 (\ref{exercisemryt4})
+
+\begin{exercise}[（每日一题思考题 5，浙江大学2026）]
+
+设 $\displaystyle x_n = \int_{0}^{\frac{\pi}{2}} \dfrac{\sin^2(nx)}{\sin x} \mathrm{d}x, \ n \in \mathbb{Z}^+$，求极限 $\displaystyle \lim_{n \to \infty} \dfrac{x_n}{\ln n}$。
+
+\end{exercise}
+
+由于不确定 $x_n$ 的性质，所以先做差（这样兴许可以用Stolz定理，即使不能用也不算没有收获） ：
+
+$$
+\begin{aligned}\displaystyle x_{n+1} - x_n &= \int_{0}^{\frac{\pi}{2}} \dfrac{\sin^2((n+1)x) - \sin^2(nx)}{\sin x} \mathrm{d}x = \int_{0}^{\frac{\pi}{2}} \dfrac{\sin((n+1)x - nx) \sin((n+1)x + nx)}{\sin x} \mathrm{d}x \\ &= \int_{0}^{\frac{\pi}{2}} \dfrac{\cancel{\sin x} \sin((2n+1)x)}{\cancel{\sin x}} \mathrm{d}x =-\left.\dfrac{\cos((2n+1)x)}{2n+1} \right\vert_{0}^{\frac{\pi}{2}} \\ &=\dfrac{1}{2n+1}\end{aligned}
+$$
+
+根据 Stolz 公式，当 $\displaystyle n \to \infty$ 时，$\displaystyle \ln(n+1) - \ln n = \ln\left(1 + \dfrac{1}{n}\right) \sim \dfrac{1}{n}$，于是：
+
+$$
+\displaystyle \lim_{n \to \infty} \dfrac{x_n}{\ln n} =\lim_{n \to \infty} \dfrac{x_{n+1} - x_n}{\ln(n+1) - \ln n} = \lim_{n \to \infty} \dfrac{\dfrac{1}{2n+1}}{\ln\left(1 + \dfrac{1}{n}\right)} = \lim_{n \to \infty} \dfrac{\dfrac{1}{2n+1}}{\dfrac{1}{n}} = \lim_{n \to \infty} \dfrac{n}{2n+1} = \dfrac{1}{2}
+$$
+
+\begin{exercise}[（每日一题思考题 6，中国科学技术大学等2026）]
+
+设 $\displaystyle x_0 \in \left( 0, \dfrac{\pi}{2} \right)$，且 $\displaystyle x_n = \sin x_{n-1} \ (n = 1, 2, \cdots)$。求 $\displaystyle \lim_{n \to \infty} x_n, \ \lim_{n \to \infty} nx_n^2$。
+
+\end{exercise}
+
+\begin{enumerate}
+  \item {求 $\displaystyle \lim_{n \to \infty} x_n$。因为当 $\displaystyle x \in \left( 0, \dfrac{\pi}{2} \right)$ 时，恒有 $\displaystyle 0 < \sin x < x$，故通过数学归纳法易知对任意 $\displaystyle n \ge 1$，均有 $\displaystyle x_n \in \left( 0, \dfrac{\pi}{2} \right)$，且 $\displaystyle x_n < x_{n-1}$。这说明数列 $\displaystyle \lbrace x_n \rbrace$ 单调递减且有下界 $\displaystyle 0$，因此极限必定存在。设 $\displaystyle \lim_{n \to \infty} x_n = A$。对递推公式两边取极限，由正弦函数的连续性得 $\displaystyle A = \sin A$。该方程在实数范围内的唯一解为 $\displaystyle A = 0$。因此，$\displaystyle \lim_{n \to \infty} x_n = 0$。注：这里\textbf{不能用 Stolz 公式}，因为 $\displaystyle x_n = f(x_{n-1})$ 这种递推数列并不知道是否有 $\displaystyle x_n \to 0$，因此标准的“起手式”就是讨论单调性和有界性
+
+}\item {求 $\displaystyle \lim_{n \to \infty} nx_n^2$。将待求极限改写为 $\displaystyle \lim_{n \to \infty} \dfrac{n}{\dfrac{1}{x_n^2}}$。由于 $\displaystyle \lim_{n \to \infty} x_n = 0$ 且 $\displaystyle x_n > 0$，分母 $\displaystyle \dfrac{1}{x_n^2}$ 严格单调增加且趋于无穷。满足 Stolz 公式的应用条件。令 $\displaystyle a_n = n$，$\displaystyle b_n = \dfrac{1}{x_n^2}$，应用 Stolz 公式考察相邻两项差的比值极限，对分母的差项进行通分并利用泰勒展开（由于当 $\displaystyle n \to \infty$ 时 $\displaystyle x_n \to 0$）：$$
+\begin{aligned}\lim_{n \to \infty} \dfrac{a_{n+1} - a_n}{b_{n+1} - b_n} &= \lim_{n \to \infty} \dfrac{(n+1) - n}{\dfrac{1}{x_{n+1}^2} - \dfrac{1}{x_n^2}} = \lim_{n \to \infty} \dfrac{1}{\dfrac{1}{\sin^2 x_n} - \dfrac{1}{x_n^2}}= \lim_{x_n \to 0} \dfrac{x_n^2 - \sin^2 x_n}{x_n^2 \sin^2 x_n} \\ &= \lim_{x_n \to 0} \dfrac{x_n^2 - \left( x_n - \dfrac{1}{6}x_n^3 + \mathcal{O}(x_n^3) \right)^2}{x_n^4} = \lim_{x_n \to 0} \dfrac{x_n^2 - \left( x_n^2 - \dfrac{1}{3}x_n^4 + \mathcal{O}(x_n^4) \right)}{x_n^4} \\ &= \dfrac{1}{3}\end{aligned}$$
+
+
+
+}
+\end{enumerate}
+
+\section{自然对数的底 e 和 Euler 常数 γ}
+

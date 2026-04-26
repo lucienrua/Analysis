@@ -44,7 +44,7 @@
 \newcommand{\Prob}{\operatorname{P}}
 \newcommand{\I}{\operatorname{I}}
 \newcommand{\diff}{\mathrm{d}}
-
+\allowdisplaybreaks[4]
 % ==========================================
 % 4. 图形 (Graphics & TikZ)
 % ==========================================
@@ -91,8 +91,8 @@
 \definecolor{ObsNote}{RGB}{255, 160, 180}     % #FFA0B4 浅粉
 \definecolor{ObsSol}{RGB}{245, 170, 120}      % #F5AA78 暖橙
 \definecolor{ObsEg}{RGB}{205, 170, 95}        % 更深沉的暗褐黄
-\definecolor{ObsExe}{RGB}{150, 110, 210}      % 偏紫的色调
-\definecolor{jiangmo}{HTML}{57A3F1}           % 原有的蓝%
+\definecolor{ObsPro}{RGB}{150, 110, 210}      % 偏紫的色调
+\definecolor{ObsEx}{HTML}{57A3F1}           % 原有的蓝%
 
 % ==========================================
 % 7. 代码与算法 (Code & Algorithms)
@@ -157,17 +157,18 @@
 }
 
 % 批量生成所有环境，严格保留你原有的计数器依赖关系
-\createobsbox{theorem}{Theorem}{ObsTheorem}{numberwithin=section}
-\createobsbox{proposition}{Proposition}{ObsProp}{sibling=theorem}
-\createobsbox{lemma}{Lemma}{ObsLemma}{sibling=theorem}
-\createobsbox{corollary}{Corollary}{ObsCor}{sibling=theorem}
-\createobsbox{claim}{Claim}{ObsClaim}{sibling=theorem}
-\createobsbox{definition}{Definition}{ObsDef}{numberwithin=section}
-\createobsbox{problem}{Problem}{jiangmo}{numberwithin=section}
-\createobsbox{exercise}{Exercise}{ObsExe}{numberwithin=section}
-\createobsbox{example}{Example}{ObsEg}{numberwithin=section}
-\createobsbox{remark}{Remark}{ObsRemark}{numberwithin=section}
-\createobsbox{note}{Note}{ObsNote}{numberwithin=section}
+
+\createobsbox{theorem}{定理}{ObsTheorem}{numberwithin=section}
+\createobsbox{proposition}{命题}{ObsProp}{sibling=theorem}
+\createobsbox{lemma}{引理}{ObsLemma}{sibling=theorem}
+\createobsbox{corollary}{推论}{ObsCor}{sibling=theorem}
+\createobsbox{claim}{断言}{ObsClaim}{sibling=theorem}
+\createobsbox{definition}{定义}{ObsDef}{numberwithin=section}
+\createobsbox{problem}{问题}{ObsPro}{numberwithin=section}
+\createobsbox{exercise}{习题}{ObsEx}{numberwithin=section}
+\createobsbox{example}{例题}{ObsEg}{numberwithin=section}
+\createobsbox{remark}{注记}{ObsRemark}{numberwithin=section}
+\createobsbox{note}{注意}{ObsNote}{numberwithin=section}
 
 % Solution 环境单独定义 (解答一般不换行，且需要结束符)
 \declaretheoremstyle[

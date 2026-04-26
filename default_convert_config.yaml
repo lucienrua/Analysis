@@ -11,10 +11,10 @@ link: |-
   \href{<url>}{<text>}
 image: |-
   \begin{figure}[H]
-      \centering
-      \includegraphics[width=<scale>\textwidth]{<url>}
-      \caption{<alt>}
-      \label{<label>}
+    \centering
+    \includegraphics[width=<scale>\textwidth]{<url>}
+    \caption{<alt>}
+    \label{<label>}
   \end{figure}
 codespan: |-
   <text>
@@ -37,7 +37,7 @@ thematic_break: |-
 block_text: |-
   <text>
 block_code: |-
- \begin{minted}[frame=single, linenos=true] {<lang>}
+  \begin{minted}[frame=single, linenos=true] {<lang>}
   <code>
   \end{minted}
 block_quote: |-

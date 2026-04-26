@@ -172,7 +172,8 @@ class LaTeXRender(mistune.BaseRenderer):
 
         t = self.my_config["paragraph"]
         t = t.replace("<text>", text)
-        return t
+        # 【核心修复】：强制在段落末尾加上双回车（空行），确立 LaTeX 段落边界
+        return t.strip() + "\n\n"
 
     # 标题
     def heading(self, text: str, level: int, **attrs) -> str:
@@ -187,7 +188,7 @@ class LaTeXRender(mistune.BaseRenderer):
         t = self.my_config["heading"]
         t = t.replace("<text>", text)
         t = t.replace("<heading_types>", heading_types[level - 1])
-        return t
+        return t.strip() + "\n\n"
 
     def blank_line(self) -> str:
         t = self.my_config["blank_line"]
@@ -230,10 +231,10 @@ class LaTeXRender(mistune.BaseRenderer):
         t = t.replace("<text>", text)
         return t
 
-    def block_quote(self, text: str) -> str:
-        t = self.my_config["block_quote"]
-        t = t.replace("<text>", text)
-        return t
+    # def block_quote(self, text: str) -> str:
+    #     t = self.my_config["block_quote"]
+    #     t = t.replace("<text>", text)
+    #     return t
 
     def block_html(self, html: str) -> str:
         # 同理，块级 HTML 也原样保留
@@ -248,17 +249,17 @@ class LaTeXRender(mistune.BaseRenderer):
             t = self.ordered_list(text, **attrs)
         else:
             t = self.disordered_list(text, **attrs)
-        return t
+        return t.strip() + "\n\n"
 
     def ordered_list(self, text: str, **attrs) -> str:
         t = self.my_config["ordered_list"]
         t = t.replace("<text>", text)
-        return t
+        return t.strip() + "\n\n"
 
     def disordered_list(self, text: str, **attrs) -> str:
         t = self.my_config["disordered_list"]
         t = t.replace("<text>", text)
-        return t
+        return t.strip() + "\n\n"
 
     def list_item(self, text: str) -> str:
         t = self.my_config["list_item"]
@@ -282,7 +283,7 @@ class LaTeXRender(mistune.BaseRenderer):
     def block_math(self, text):
         # 无论公式多简单或多复杂，一律使用 $$ 包裹
         # 这样生成的 .tex 就会是 $$ ... $$ 格式
-        return '$$\n' + text.strip() + '\n$$'
+        return '$$\n' + text.strip() + '\n$$\n\n'
 
     # 代码块 ```language
     def block_code(self, code: str, info=None) -> str:
@@ -357,7 +358,7 @@ class LaTeXRender(mistune.BaseRenderer):
         t = t.replace("<head>", head_latex)
         t = t.replace("<align>", align)
         t = t.replace("<body>", body_latex)
-        return t
+        return t.strip() + "\n\n"
 
     def table_head(self, text):
         # 在 head 前插入标记，让 table() 能定位 head 区域
